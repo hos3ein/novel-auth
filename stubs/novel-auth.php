@@ -1,5 +1,9 @@
 <?php
 
+require_once __DIR__ . '/../vendor/hos3ein/novel-auth/config/Constants.php';
+
+use Hos3ein\NovelAuth\Features\Constants;
+
 return [
 
     /*
@@ -20,13 +24,17 @@ return [
     /*
     |--------------------------------------------------------------------------
     */
-    'registerMethods' => ['e', 'm'],
+
+//    'registerMethods' => ['e', 'm'],
+    'register_methods' => [Constants::$EMAIL_MODE, Constants::$PHONE_MODE],
     'registerCodePassword' => 'code_password',
-    'registerPhoneOptServices' => ['call', 'sms', 'ussd'],
+//    'registerPhoneOptServices' => ['call', 'sms', 'ussd'],
+    'register_phone_opt_services' => [Constants::$OTP_CALL, Constants::$OTP_SMS, Constants::$OTP_USSD],
     'defaultRegisterPhoneOptService' => 'sms',
 
     'loginOptions' => 'option_password_code',
-    'optServices' => ['email', 'call', 'sms', 'ussd', 'telegram', 'whatsapp', 'otp_generator'],
+//    'optServices' => ['email', 'call', 'sms', 'ussd', 'telegram', 'whatsapp', 'otp_generator'],
+    'opt_services' => [Constants::$OTP_EMAIL, Constants::$OTP_CALL, Constants::$OTP_SMS, Constants::$OTP_USSD, Constants::$OTP_TELEGRAM, Constants::$OTP_WHATSAPP, Constants::$OTP_GENERATOR],
 
     'encrypt_otp_code' => true,
 

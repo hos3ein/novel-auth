@@ -49,7 +49,7 @@ class RegisterCodePassword
                     } else {
                         $request->claims = TM::appendToClaims($request->claims, 'verified', true);
                         $request->claims = TM::removeFromClaims($request->claims, 'otp_type');
-                        return RS::go2Passwords($request->claims, __('novel-auth::messages.register.pass'));
+                        return RS::go2Passwords($request->claims, __('novel-auth::messages.register.passes'));
                     }
                 } else {
                     $inputType = $request->claims->getClaim('input_type');

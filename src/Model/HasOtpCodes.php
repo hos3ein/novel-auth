@@ -29,10 +29,11 @@ trait HasOtpCodes
             ->where('type', $otpType)
             ->where('updated_at', '>', now()->modify('-' . config(Constants::$configOtpCodeTtl)))
             ->first();
-        return $otpCode and ($code == config(Constants::$configEncryptOtpCode)
-                ? $otpCode->code
-                : Crypt::decryptString($otpCode->code)
-            );
+        if ($otpCode) {
+            $c = config(Constants::$configEncryptOtpCode) ? Crypt::decryptString($otpCode->code) : $otpCode->code;
+            return $code == $c;
+        }
+        return false;
     }
 
     public function getRemainingTtlFromLastSend($otpType): int

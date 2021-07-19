@@ -4,13 +4,13 @@ namespace Hos3ein\NovelAuth\Features;
 require_once __DIR__ . '/Constants.php';
 
 return [
-    Constants::$registerMethods => [Constants::$EMAIL_MODE, Constants::$PHONE_MODE],
+    Constants::$registerMethods => [],
     Constants::$registerCodePassword => Constants::$CP_CODE_PASSWORD,
-    Constants::$registerPhoneOptServices => [Constants::$OTP_CALL, Constants::$OTP_SMS, Constants::$OTP_USSD],
+    Constants::$registerPhoneOptServices => [],
     Constants::$defaultRegisterPhoneOptService => null,
 
     Constants::$loginOptions => Constants::$OPTION_PASSWORD_CODE,
-    Constants::$optServices => [Constants::$OTP_EMAIL, Constants::$OTP_CALL, Constants::$OTP_SMS, Constants::$OTP_USSD, Constants::$OTP_TELEGRAM, Constants::$OTP_WHATSAPP, Constants::$OTP_GENERATOR],
+    Constants::$optServices => [],
 
     Constants::$encryptOtpCode => true,
 
