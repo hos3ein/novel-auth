@@ -89,4 +89,7 @@ class Constants
 
     public static $configLimitersAuth = 'novel-auth.limiters.auth';
     public static $limitersAuth = 'auth';
+
+    public static $configSecretKey = 'novel-auth.secret-key';
+    public static $secretKey = 'secret-key';
 }

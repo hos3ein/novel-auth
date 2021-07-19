@@ -3,6 +3,7 @@
 namespace Hos3ein\NovelAuth\Classes;
 
 use DateTimeImmutable;
+use Hos3ein\NovelAuth\Features\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Lcobucci\JWT\Builder;
@@ -25,7 +26,7 @@ class TM
             ->withClaim('input_type', $request->inputType)
             //->expiresAt($now->modify('+5 minute')->getTimestamp())
             ->issuedAt((new DateTimeImmutable())->getTimestamp())
-            ->getToken(new Sha256(), new Key(config('app.key')));
+            ->getToken(new Sha256(), new Key(config(Constants::$configSecretKey)));
     }
 
     public static function appendToClaims(Token $claims, $name, $value): Token
@@ -35,7 +36,7 @@ class TM
             if ($claimKey != $name)
                 $b->withClaim($claimKey, $claimValue);
         $b->withClaim($name, $value);
-        return $b->getToken(new Sha256(), new Key(config('app.key')));
+        return $b->getToken(new Sha256(), new Key(config(Constants::$configSecretKey)));
     }
 
     public static function removeFromClaims(Token $claims, $name): Token
@@ -44,12 +45,12 @@ class TM
         foreach ($claims->getClaims() as $claimKey => $claimValue)
             if ($claimKey != $name)
                 $b->withClaim($claimKey, $claimValue);
-        return $b->getToken(new Sha256(), new Key(config('app.key')));
+        return $b->getToken(new Sha256(), new Key(config(Constants::$configSecretKey)));
     }
 
     public static function validToken(Token $token): bool
     {
-        return $token->verify(new Sha256(), new Key(config('app.key')));
+        return $token->verify(new Sha256(), new Key(config(Constants::$configSecretKey)));
     }
 
     public static function ParseToken(string $token_rc): Token

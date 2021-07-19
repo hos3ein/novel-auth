@@ -29,4 +29,5 @@ return [
     Constants::$guard => 'web',
     Constants::$views => true,
     Constants::$limiters => [Constants::$limitersAuth => 'auth'],
+    Constants::$secretKey => config('app.key'),
 ];

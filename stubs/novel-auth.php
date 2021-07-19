@@ -43,4 +43,5 @@ return [
     'guard' => 'web',
     'views' => true,
     'limiters' => ['auth' => 'auth'],
+    'secret-key' => config('app.key'),
 ];

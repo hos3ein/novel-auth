@@ -1,6 +1,6 @@
-## Introduction
+## Novel Auth
 
-Proper Fortify
+* Laravel authentication with password or otp or both and highly configurable
 
 ## Install NovelAuth
 
@@ -31,8 +31,6 @@ class User extends Authenticatable
     ...
 }
 ```
-
-JWT SECRET
 
 ## Extra settings
 
