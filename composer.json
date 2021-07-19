@@ -1,0 +1,39 @@
+{
+    "name": "hos3ein/novel-auth",
+    "description": "Authentication with password or otp or both and highly configurable",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hossein Zaaferani",
+            "email": "hossein.arta96@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "laravel/fortify": "^1.7",
+        "tymon/jwt-auth": "^1.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.0",
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Hos3ein\\NovelAuth\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Hos3ein\\NovelAuth\\tests": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Hos3ein\\NovelAuth\\NovelAuthServiceProvider"
+            ]
+        }
+    }
+}
