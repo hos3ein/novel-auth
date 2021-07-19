@@ -1,6 +1,8 @@
 {
     "name": "hos3ein/novel-auth",
-    "description": "Authentication with password or otp or both and highly configurable",
+    "description": "Laravel authentication with password or otp or both and highly configurable",
+    "homepage":     "https://github.com/hos3ein/novel-auth",
+    "keywords": ["laravel", "auth", "otp"],
     "type": "library",
     "license": "MIT",
     "authors": [
