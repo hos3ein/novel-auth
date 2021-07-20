@@ -27,8 +27,8 @@ class LoginCodePassword
         $code = $request->code;
 
         if (in_array(config(Constants::$configLoginOptions), [Constants::$ONLY_CODE, Constants::$CODE_PASSWORD])
-            or (config(Constants::$configLoginOptions) == Constants::$OPTION_CODE_PASSWORD and $request->tempUser->isUserForceBoth())) {
-            if (in_array(config(Constants::$configLoginOptions), [Constants::$CODE_PASSWORD, Constants::$OPTION_CODE_PASSWORD])) {
+            or (config(Constants::$configLoginOptions) == Constants::$OPTIONAL_CODE_PASSWORD and $request->tempUser->isUserForceBoth())) {
+            if (in_array(config(Constants::$configLoginOptions), [Constants::$CODE_PASSWORD, Constants::$OPTIONAL_CODE_PASSWORD])) {
                 if ($request->claims->getClaim('verified', false)) {
                     if ($pass) {
                         if (app(HasherContract::class)->check($pass, $request->tempUser->password)) {

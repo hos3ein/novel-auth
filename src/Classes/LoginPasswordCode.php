@@ -24,8 +24,8 @@ class LoginPasswordCode
             return $next($request);
 
         if (in_array(config(Constants::$configLoginOptions), [Constants::$ONLY_PASSWORD, Constants::$PASSWORD_CODE])
-            or (config(Constants::$configLoginOptions) == Constants::$OPTION_PASSWORD_CODE and $request->tempUser->isUserForceBoth())) {
-            if (in_array(config(Constants::$configLoginOptions), [Constants::$PASSWORD_CODE, Constants::$OPTION_PASSWORD_CODE])) {
+            or (config(Constants::$configLoginOptions) == Constants::$OPTIONAL_PASSWORD_CODE and $request->tempUser->isUserForceBoth())) {
+            if (in_array(config(Constants::$configLoginOptions), [Constants::$PASSWORD_CODE, Constants::$OPTIONAL_PASSWORD_CODE])) {
                 if ($request->claims->getClaim('verified', false)) {
                     $otpType = $request->claims->getClaim('otp_type');
                     if ($request->code) {

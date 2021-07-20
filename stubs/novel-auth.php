@@ -17,40 +17,35 @@ return [
     |
     */
 
-    'prefix' => '',
-
-    'domain' => null,
-
     /*
     |--------------------------------------------------------------------------
     */
 
-//    'registerMethods' => ['e', 'm'],
-    'register_methods' => [Constants::$EMAIL_MODE, Constants::$PHONE_MODE],
-    'registerCodePassword' => 'code_password',
-//    'registerPhoneOptServices' => ['call', 'sms', 'ussd'],
-    'register_phone_opt_services' => [Constants::$OTP_CALL, Constants::$OTP_SMS, Constants::$OTP_USSD],
-    'defaultRegisterPhoneOptService' => 'sms',
+    Constants::$registerMethods => [Constants::$EMAIL_MODE, Constants::$PHONE_MODE],
+    Constants::$registerCodePassword => Constants::$CP_ONLY_PASSWORD,
+    Constants::$registerPhoneOptServices => [Constants::$OTP_CALL, Constants::$OTP_SMS, Constants::$OTP_USSD],
+    Constants::$defaultRegisterPhoneOptService => Constants::$OTP_SMS,
 
-    'loginOptions' => 'option_password_code',
-//    'optServices' => ['email', 'call', 'sms', 'ussd', 'telegram', 'whatsapp', 'otp_generator'],
-    'opt_services' => [Constants::$OTP_EMAIL, Constants::$OTP_CALL, Constants::$OTP_SMS, Constants::$OTP_USSD, Constants::$OTP_TELEGRAM, Constants::$OTP_WHATSAPP, Constants::$OTP_GENERATOR],
+    Constants::$loginMode => Constants::$OPTIONAL_PASSWORD_CODE,
+    Constants::$optServices => [Constants::$OTP_EMAIL, Constants::$OTP_CALL, Constants::$OTP_SMS, Constants::$OTP_USSD, Constants::$OTP_TELEGRAM, Constants::$OTP_WHATSAPP, Constants::$OTP_GENERATOR],
 
-    'encrypt_otp_code' => true,
+    Constants::$encryptOtpCode => true,
 
-    'emailTTL' => 30, // seconds
-    'callTTL' => 20,
-    'smsTTL' => 3,
-    'telegramTTL' => 5,
-    'whatsappTTL' => 7,
+    Constants::$emailTTL => 30, // seconds
+    Constants::$callTTL => 20,
+    Constants::$smsTTL => 3,
+    Constants::$telegramTTL => 5,
+    Constants::$whatsappTTL => 7,
 
-    'tokenExpiration' => '+5 hour',
-    'otpCodeTtl' => '5 minute', // acceptable code up to 2 hours
+    Constants::$tokenExpiration => '+5 hour',
+    Constants::$otpCodeTtl => '2 hour', // acceptable code up to 2 hours
 
-    'middleware' => ['web'],
-    'guard' => 'web',
-    'views' => true,
-    'limiters' => ['auth' => 'auth'],
-    'secret-key' => config('app.key'),
-    'home' => '/dashboard',
+    Constants::$prefix => '',
+    Constants::$domain => null,
+    Constants::$middleware => ['web'],
+    Constants::$guard => 'web',
+    Constants::$views => true,
+    Constants::$limiters => [Constants::$limitersAuth => 'auth'],
+    Constants::$secretKey => config('app.key'),
+    Constants::$home => '/dashboard',
 ];

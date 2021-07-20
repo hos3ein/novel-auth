@@ -29,13 +29,13 @@ class Constants
     public static $defaultRegisterPhoneOptService = 'default_register_phone_opt_services'; // nullable - check valid values
 
     public static $configLoginOptions = 'novel-auth.login_options';
-    public static $loginOptions = 'login_options'; // nullable (mean disable login)
+    public static $loginMode = 'login_mode'; // nullable (mean disable login)
     public static $ONLY_PASSWORD = 'password';
     public static $ONLY_CODE = 'code';
     public static $PASSWORD_CODE = 'password_code';
     public static $CODE_PASSWORD = 'code_password';
-    public static $OPTION_PASSWORD_CODE = 'option_password_code';
-    public static $OPTION_CODE_PASSWORD = 'option_code_password';
+    public static $OPTIONAL_PASSWORD_CODE = 'optional_password_code';
+    public static $OPTIONAL_CODE_PASSWORD = 'optional_code_password';
 
     public static $configOptServices = 'novel-auth.opt_services';
     public static $optServices = 'opt_services';
@@ -90,8 +90,8 @@ class Constants
     public static $configLimitersAuth = 'novel-auth.limiters.auth';
     public static $limitersAuth = 'auth';
 
-    public static $configSecretKey = 'novel-auth.secret-key';
-    public static $secretKey = 'secret-key';
+    public static $configSecretKey = 'novel-auth.secret_key';
+    public static $secretKey = 'secret_key';
 
     public static $configHome = 'novel-auth.home';
     public static $home = 'home';

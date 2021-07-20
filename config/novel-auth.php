@@ -9,7 +9,7 @@ return [
     Constants::$registerPhoneOptServices => [],
     Constants::$defaultRegisterPhoneOptService => null,
 
-    Constants::$loginOptions => Constants::$OPTION_PASSWORD_CODE,
+    Constants::$loginMode => Constants::$OPTIONAL_PASSWORD_CODE,
     Constants::$optServices => [],
 
     Constants::$encryptOtpCode => true,
