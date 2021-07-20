@@ -60,12 +60,12 @@ class Otp
                     return self::sendOtp2Phone($request, $otp_type);
                 } else {
                     $df = config(Constants::$configDefaultRegisterPhoneOptServices);
-                    if (is_null($df)) {
+                    if (in_array($df, config(Constants::$configRegisterPhoneOptServices))) {
+                        return self::sendOtp2Phone($request, $df);
+                    } else {
                         return RS::go2CodeOptions($request->claims,
                             __('novel-auth::messages.otp.options'),
                             self::getRegisterPhoneOptServices($emailPhone));
-                    } else {
-                        return self::sendOtp2Phone($request, $df);
                     }
                 }
             }
