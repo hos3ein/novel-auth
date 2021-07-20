@@ -38,7 +38,6 @@ class NovelAuthServiceProvider extends ServiceProvider
             'pass_conf' => ['nullable', 'string', (new Password)->length(8)->requireNumeric()->requireUppercase()->requireSpecialCharacter()]
         ]);*/
         // NovelAuth::viewPrefix('auth.');
-        // NovelAuth::redirectTo('/dashboard');
 
         /*NovelAuth::emailPhoneValidationUsing(function ($emailPhone) {
             if (is_numeric($emailPhone))

@@ -92,4 +92,7 @@ class Constants
 
     public static $configSecretKey = 'novel-auth.secret-key';
     public static $secretKey = 'secret-key';
+
+    public static $configHome = 'novel-auth.home';
+    public static $home = 'home';
 }

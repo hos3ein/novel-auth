@@ -12,6 +12,6 @@ class LogoutResponse implements LogoutResponseContract
     {
         return $request->wantsJson()
             ? new JsonResponse(['status' => true], 204)
-            : redirect(RouteServiceProvider::HOME);
+            : redirect('/');
     }
 }

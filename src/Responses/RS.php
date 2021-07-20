@@ -41,7 +41,7 @@ class RS
             return call_user_func(NovelAuth::$onAuthDoneCallback, $request, $request->tempUser);
 
         auth()->login($request->tempUser, $request->filled('remember'));
-        return response()->redirectTo(NovelAuth::$redirectTo);
+        return response()->redirectTo(config(Constants::$configHome));
     }
 
     public static function go2Passwords($token_rc, $message)

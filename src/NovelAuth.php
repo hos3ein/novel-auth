@@ -17,13 +17,6 @@ class NovelAuth
         static::$onAuthDoneCallback = $callback;
     }
 
-    public static $redirectTo = '/';
-
-    public static function redirectTo($path)
-    {
-        static::$redirectTo = $path;
-    }
-
     private static $customValidationRules;
 
     public static function customValidationRules(array $rules)
