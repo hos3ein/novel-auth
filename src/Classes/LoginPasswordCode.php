@@ -23,9 +23,9 @@ class LoginPasswordCode
         if (!$request->tempUser->isCompleteRegistrationUser())
             return $next($request);
 
-        if (in_array(config(Constants::$configLoginOptions), [Constants::$ONLY_PASSWORD, Constants::$PASSWORD_CODE])
-            or (config(Constants::$configLoginOptions) == Constants::$OPTIONAL_PASSWORD_CODE and $request->tempUser->isUserForceBoth())) {
-            if (in_array(config(Constants::$configLoginOptions), [Constants::$PASSWORD_CODE, Constants::$OPTIONAL_PASSWORD_CODE])) {
+        if (in_array(config(Constants::$configLoginMode), [Constants::$ONLY_PASSWORD, Constants::$PASSWORD_CODE])
+            or (config(Constants::$configLoginMode) == Constants::$OPTIONAL_PASSWORD_CODE and $request->tempUser->isUserForceBoth())) {
+            if (in_array(config(Constants::$configLoginMode), [Constants::$PASSWORD_CODE, Constants::$OPTIONAL_PASSWORD_CODE])) {
                 if ($request->claims->getClaim('verified', false)) {
                     $otpType = $request->claims->getClaim('otp_type');
                     if ($request->code) {
@@ -47,7 +47,7 @@ class LoginPasswordCode
             $pass = $request->pass;
             if ($pass) {
                 if (app(HasherContract::class)->check($pass, $request->tempUser->password)) {
-                    if (config(Constants::$configLoginOptions) == Constants::$ONLY_PASSWORD) {
+                    if (config(Constants::$configLoginMode) == Constants::$ONLY_PASSWORD) {
                         return RS::go2Home($request);
                     } else {
                         $request->claims = TM::appendToClaims($request->claims, 'verified', true);

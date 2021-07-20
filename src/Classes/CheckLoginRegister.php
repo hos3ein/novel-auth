@@ -24,7 +24,7 @@ class CheckLoginRegister
         $request->tempUser = $accountManager->findOrCreateIncompleteRegistrationUser($request->claims->getClaim('email_phone'), $request->claims->getClaim('input_type'));
 
         if ($request->tempUser->isCompleteRegistrationUser()) {
-            if (is_null(config(Constants::$configLoginOptions)))
+            if (is_null(config(Constants::$configLoginMode)))
                 return RS::back2Auth(__('novel-auth::messages.login.disabled'));
             if (!$request->tempUser->isActive())
                 return RS::back2Auth($request->tempUser->inActiveMessage());

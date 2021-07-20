@@ -23,7 +23,7 @@ class LoginOptionalCodePass
         if (!$request->tempUser->isCompleteRegistrationUser())
             return $next($request);
 
-        if (in_array(config(Constants::$configLoginOptions), [Constants::$OPTIONAL_PASSWORD_CODE, Constants::$OPTIONAL_CODE_PASSWORD])) {
+        if (in_array(config(Constants::$configLoginMode), [Constants::$OPTIONAL_PASSWORD_CODE, Constants::$OPTIONAL_CODE_PASSWORD])) {
             $otpOptions = $request->tempUser->getAvailableOtpOptionsForUser();
 
             $pass = $request->pass;
@@ -56,7 +56,7 @@ class LoginOptionalCodePass
                     $request->claims = TM::removeFromClaims($request->claims, 'otp_type');
                 }
             } else {
-                if (config(Constants::$configLoginOptions) == Constants::$OPTIONAL_PASSWORD_CODE) {
+                if (config(Constants::$configLoginMode) == Constants::$OPTIONAL_PASSWORD_CODE) {
                     return RS::go2Password($request->claims, __('novel-auth::messages.login.pass'), $otpOptions, !empty($otpOptions));
                 } else {
                     if (empty($otpOptions)) {

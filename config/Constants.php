@@ -28,7 +28,7 @@ class Constants
     public static $configDefaultRegisterPhoneOptServices = 'novel-auth.default_register_phone_opt_services';
     public static $defaultRegisterPhoneOptService = 'default_register_phone_opt_services'; // nullable - check valid values
 
-    public static $configLoginOptions = 'novel-auth.login_options';
+    public static $configLoginMode = 'novel-auth.login_mode';
     public static $loginMode = 'login_mode'; // nullable (mean disable login)
     public static $ONLY_PASSWORD = 'password';
     public static $ONLY_CODE = 'code';

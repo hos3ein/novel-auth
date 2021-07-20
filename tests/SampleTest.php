@@ -36,7 +36,7 @@ class SampleTest extends TestCase
 
     public function test_disable_login()
     {
-        app('config')->set(Constants::$configLoginOptions, null);
+        app('config')->set(Constants::$configLoginMode, null);
         $user = User::factory()->create();
         $response = $this->json('post', '/auth', ['email_phone' => $user->email]);
         $response->assertStatus(422);
