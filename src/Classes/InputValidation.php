@@ -5,6 +5,7 @@ namespace Hos3ein\NovelAuth\Classes;
 use DateTime;
 use DateTimeImmutable;
 use Hos3ein\NovelAuth\Features\Constants;
+use Hos3ein\NovelAuth\NovelAuth;
 use Hos3ein\NovelAuth\Responses\RS;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -60,7 +61,7 @@ class InputValidation
             }
         } else {
             $emailPhone = $request->email_phone;
-            list($inputValid, $inputType) = self::emailPhoneValidation($emailPhone);
+            list($inputValid, $inputType) = call_user_func(NovelAuth::emailPhoneValidationCallback(), $emailPhone);
             if ($inputValid) {
                 $request->inputType = $inputType;
                 $request->emailPhone = $emailPhone;
@@ -72,13 +73,5 @@ class InputValidation
         throw ValidationException::withMessages(
             [__('novel-auth::messages.email_phone.invalid.' . ($inputType == Constants::$EMAIL_MODE ? 'email' : 'phone'))]
         );
-    }
-
-    public static function emailPhoneValidation($emailPhone): array
-    {
-        if (is_numeric($emailPhone))
-            return array(Str::length($emailPhone) > 0 and Str::length($emailPhone) < 10, Constants::$PHONE_MODE);
-        else
-            return array(filter_var($emailPhone, FILTER_VALIDATE_EMAIL), Constants::$EMAIL_MODE);
     }
 }

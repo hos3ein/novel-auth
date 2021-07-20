@@ -4,6 +4,8 @@ namespace Hos3ein\NovelAuth;
 
 use Hos3ein\NovelAuth\Contracts\AccountManager;
 use Hos3ein\NovelAuth\Contracts\OtpManager;
+use Hos3ein\NovelAuth\Features\Constants;
+use Illuminate\Support\Str;
 use Laravel\Fortify\Rules\Password;
 
 class NovelAuth
@@ -13,6 +15,13 @@ class NovelAuth
     public static function onAuthDone(callable $callback)
     {
         static::$onAuthDoneCallback = $callback;
+    }
+
+    public static $redirectTo = '/';
+
+    public static function redirectTo($path)
+    {
+        static::$redirectTo = $path;
     }
 
     private static $customValidationRules;
@@ -26,6 +35,24 @@ class NovelAuth
     {
         return static::$customValidationRules
             ?: ['pass_conf' => ['nullable', 'string', (new Password)->length(8)->requireNumeric()->requireUppercase()->requireSpecialCharacter()]];
+    }
+
+    private static $customEmailPhoneValidationCallback;
+
+    public static function emailPhoneValidationUsing(callable $callback)
+    {
+        static::$customEmailPhoneValidationCallback = $callback;
+    }
+
+    public static function emailPhoneValidationCallback(): \Closure
+    {
+        return static::$customEmailPhoneValidationCallback
+            ?: function ($emailPhone) {
+                if (is_numeric($emailPhone))
+                    return array(Str::length($emailPhone) > 0 and Str::length($emailPhone) < 10, Constants::$PHONE_MODE);
+                else
+                    return array(filter_var($emailPhone, FILTER_VALIDATE_EMAIL), Constants::$EMAIL_MODE);
+            };
     }
 
     public static function accountManagerUsing(string $callback)
@@ -68,11 +95,6 @@ class NovelAuth
     public static function codeOptionsView(): string
     {
         return static::$customViewPrefix . 'code_options';
-    }
-
-    public static function profileView(): string
-    {
-        return static::$customViewPrefix . 'profile';
     }
 
     /**

@@ -6,6 +6,7 @@ return [
         'expired' => 'Expired Token',
         'consumed' => 'Consumed Token',
     ],
+    'auth' => 'Enter Email/Phone to login or register',
     'users' => [
         'inactive' => 'Your account is deactivated',
     ],

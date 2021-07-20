@@ -11,16 +11,6 @@ use Laravel\Fortify\Http\Controllers\TwoFactorQrCodeController;
 Route::group(['as' => 'auth.', 'middleware' => config(Constants::$configMiddleware, ['web'])], function () {
     $enableViews = config(Constants::$configViews, true);
 
-    if ($enableViews) {
-        Route::get('/profile', function () {
-            return view(NovelAuth::profileView());
-        })->middleware(['auth'])->name('profile');
-    }
-
-    Route::post('/me', function ($request) {
-        return $request->user();
-    })->middleware(['auth']);
-
     Route::get('/logout', [AuthController::class, 'destroy'])->name('logout');
 
     if ($enableViews) {
