@@ -24,7 +24,7 @@ class RegisterOnlyPassword
             return $next($request);
         }
 
-        if (config(Constants::$configRegisterCodePassword) == Constants::$CP_ONLY_PASSWORD) {
+        if (config(Constants::$configRegisterMode) == Constants::$CP_ONLY_PASSWORD) {
             $pass1 = $request->pass;
             $pass2 = $request->pass_conf;
 

@@ -24,7 +24,7 @@ return [
     */
 
     Constants::$registerMethods => [Constants::$EMAIL_MODE, Constants::$PHONE_MODE],
-    Constants::$registerCodePassword => Constants::$CP_ONLY_PASSWORD,
+    Constants::$registerMode => Constants::$CP_ONLY_PASSWORD,
     Constants::$registerPhoneOptServices => [Constants::$OTP_CALL, Constants::$OTP_SMS, Constants::$OTP_USSD],
     Constants::$defaultRegisterPhoneOptService => Constants::$OTP_SMS,
 

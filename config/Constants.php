@@ -17,8 +17,8 @@ class Constants
     public static $EMAIL_MODE = 'e';
     public static $PHONE_MODE = 'm';
 
-    public static $configRegisterCodePassword = 'novel-auth.register_code_password';
-    public static $registerCodePassword = 'register_code_password';
+    public static $configRegisterMode = 'novel-auth.register_mode';
+    public static $registerMode = 'register_mode';
     public static $CP_ONLY_CODE = 'code';
     public static $CP_ONLY_PASSWORD = 'password';
     public static $CP_CODE_PASSWORD = 'code_password';

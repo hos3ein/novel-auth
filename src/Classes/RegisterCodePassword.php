@@ -28,8 +28,8 @@ class RegisterCodePassword
         $pass1 = $request->pass;
         $pass2 = $request->pass_conf;
 
-        if (config(Constants::$configRegisterCodePassword) != Constants::$CP_ONLY_PASSWORD) {
-            if (config(Constants::$configRegisterCodePassword) == Constants::$CP_CODE_PASSWORD) {
+        if (config(Constants::$configRegisterMode) != Constants::$CP_ONLY_PASSWORD) {
+            if (config(Constants::$configRegisterMode) == Constants::$CP_CODE_PASSWORD) {
                 if ($request->claims->getClaim('verified', false)) {
                     if ($pass1 and $pass1 == $pass2) {
                         $request->tempUser->setCompleteRegistrationUser($pass1);
@@ -43,7 +43,7 @@ class RegisterCodePassword
                 if ($request->tempUser->verifyCode($otpType, $code)) {
                     $request->tempUser->setVerifyAt($request->claims->getClaim('input_type') == Constants::$EMAIL_MODE ? 'email' : 'phone');
                     $request->tempUser->deleteAllOtpCodes();
-                    if (config(Constants::$configRegisterCodePassword) == Constants::$CP_ONLY_CODE) {
+                    if (config(Constants::$configRegisterMode) == Constants::$CP_ONLY_CODE) {
                         $request->tempUser->setCompleteRegistrationUser(Str::random());
                         return RS::go2Home($request);
                     } else {
