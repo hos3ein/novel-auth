@@ -37,8 +37,8 @@ class Constants
     public static $OPTIONAL_PASSWORD_CODE = 'optional_password_code';
     public static $OPTIONAL_CODE_PASSWORD = 'optional_code_password';
 
-    public static $configOptServices = 'novel-auth.opt_services';
-    public static $optServices = 'opt_services';
+    public static $configOtpServices = 'novel-auth.otp_services';
+    public static $otpServices = 'otp_services';
     public static $OTP_EMAIL = 'email';
     public static $OTP_CALL = 'call';
     public static $OTP_SMS = 'sms';

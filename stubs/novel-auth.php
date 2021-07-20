@@ -16,6 +16,8 @@ return [
     | subdomain under which all of the Fortify routes will be available.
     |
     */
+    Constants::$prefix => '',
+    Constants::$domain => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -27,7 +29,7 @@ return [
     Constants::$defaultRegisterPhoneOptService => Constants::$OTP_SMS,
 
     Constants::$loginMode => Constants::$OPTIONAL_PASSWORD_CODE,
-    Constants::$optServices => [Constants::$OTP_EMAIL, Constants::$OTP_CALL, Constants::$OTP_SMS, Constants::$OTP_USSD, Constants::$OTP_TELEGRAM, Constants::$OTP_WHATSAPP, Constants::$OTP_GENERATOR],
+    Constants::$otpServices => [Constants::$OTP_EMAIL, Constants::$OTP_CALL, Constants::$OTP_SMS, Constants::$OTP_USSD, Constants::$OTP_TELEGRAM, Constants::$OTP_WHATSAPP, Constants::$OTP_GENERATOR],
 
     Constants::$encryptOtpCode => true,
 
@@ -40,8 +42,6 @@ return [
     Constants::$tokenExpiration => '+5 hour',
     Constants::$otpCodeTtl => '2 hour', // acceptable code up to 2 hours
 
-    Constants::$prefix => '',
-    Constants::$domain => null,
     Constants::$middleware => ['web'],
     Constants::$guard => 'web',
     Constants::$views => true,

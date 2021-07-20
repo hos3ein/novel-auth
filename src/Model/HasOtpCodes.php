@@ -76,7 +76,7 @@ trait HasOtpCodes
     public function getAvailableOtpOptionsForUser(): array
     {
         $res = [];
-        foreach (config(Constants::$configOptServices) as $service) {
+        foreach (config(Constants::$configOtpServices) as $service) {
             if ($service == Constants::$OTP_GENERATOR)
                 if ($this->two_factor_secret != null)
                     $res[] = ['type' => $service, 'id' => 'One-time password generator'];

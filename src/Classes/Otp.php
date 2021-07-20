@@ -21,7 +21,7 @@ class Otp
         $otp_type = $request->claims->getClaim('otp_type', 'null');
 
         if ($inputType == Constants::$EMAIL_MODE) {
-            if (in_array(Constants::$OTP_EMAIL, config(Constants::$configOptServices))) {
+            if (in_array(Constants::$OTP_EMAIL, config(Constants::$configOtpServices))) {
                 // $remainingTtl = AM::getRemainingTtlFromLastSend($request, Constants::$OTP_EMAIL);
                 $remainingTtl = $request->tempUser->getRemainingTtlFromLastSend(Constants::$OTP_EMAIL);
                 $request->claims = TM::appendToClaims($request->claims, 'otp_type', Constants::$OTP_EMAIL);
@@ -136,7 +136,7 @@ class Otp
                 return RS::back2Auth(__('novel-auth::messages.register.no_otp_email_phone'));
         } else {
             if (in_array(Constants::$EMAIL_MODE, config(Constants::$configRegisterMethods)) and
-                in_array(Constants::$OTP_EMAIL, config(Constants::$configOptServices)))
+                in_array(Constants::$OTP_EMAIL, config(Constants::$configOtpServices)))
                 return RS::back2Auth(__('novel-auth::messages.register.no_otp_phone_use_email'));
             else
                 return RS::back2Auth(__('novel-auth::messages.register.no_otp_phone_email'));
