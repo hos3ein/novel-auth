@@ -20,7 +20,8 @@ class AuthController extends Controller
 {
     public function create()
     {
-        return view(NovelAuth::authView());
+        $message = __('novel-auth::messages.auth');
+        return view(NovelAuth::authView(), compact('message'));
     }
 
     public function store(AuthRequest $request)

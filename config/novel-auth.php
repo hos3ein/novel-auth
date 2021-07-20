@@ -21,7 +21,7 @@ return [
     Constants::$whatsappTTL => 7,
 
     Constants::$tokenExpiration => '+5 hour',
-    Constants::$otpCodeTtl => '5 minute', // acceptable code up to 2 hours
+    Constants::$otpCodeTtl => '2 hour', // acceptable code up to 2 hours
 
     Constants::$prefix => '',
     Constants::$domain => null,
