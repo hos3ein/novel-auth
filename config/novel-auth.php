@@ -5,7 +5,7 @@ require_once __DIR__ . '/Constants.php';
 
 return [
     Constants::$registerMethods => [],
-    Constants::$registerCodePassword => Constants::$CP_CODE_PASSWORD,
+    Constants::$registerCodePassword => Constants::$CP_ONLY_PASSWORD,
     Constants::$registerPhoneOptServices => [],
     Constants::$defaultRegisterPhoneOptService => null,
 
