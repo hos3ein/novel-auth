@@ -35,6 +35,7 @@ class NovelAuthServiceProvider extends ServiceProvider
         NovelAuth::otpManagerUsing(OtpManager::class);
 
         // NovelAuth::customPassValidationRule((new Password())->length(8)->requireNumeric()->requireUppercase()->requireSpecialCharacter());
+        // NovelAuth::customPassValidationRule('min:6');
         // NovelAuth::viewPrefix('auth.');
 
         /*NovelAuth::emailPhoneValidationUsing(function ($emailPhone) {
