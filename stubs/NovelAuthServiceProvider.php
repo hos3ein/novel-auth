@@ -5,13 +5,11 @@ namespace App\Providers;
 use App\Actions\NovelAuth\AccountManager;
 use App\Actions\NovelAuth\OtpManager;
 use Hos3ein\NovelAuth\Classes\TM;
-use Hos3ein\NovelAuth\Features\Constants;
 use Hos3ein\NovelAuth\NovelAuth;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Fortify\Rules\Password;
 
 class NovelAuthServiceProvider extends ServiceProvider
 {
@@ -39,11 +37,15 @@ class NovelAuthServiceProvider extends ServiceProvider
         // NovelAuth::customPassValidationRule((new Password())->length(8)->requireNumeric()->requireUppercase()->requireSpecialCharacter());
         // NovelAuth::viewPrefix('auth.');
 
-        /*NovelAuth::emailPhoneValidationUsing(function ($emailPhone) { // TODO
+        /*NovelAuth::emailPhoneValidationUsing(function ($emailPhone) {
             if (is_numeric($emailPhone))
                 return array(Str::length($emailPhone) > 0 and Str::length($emailPhone) < 10, Constants::$PHONE_MODE);
             else
                 return array(filter_var($emailPhone, FILTER_VALIDATE_EMAIL), Constants::$EMAIL_MODE);
+        });*/
+
+        /*NovelAuth::incompleteEmailPhoneUsing(function ($otpType, $emailPhone) {
+            return substr($emailPhone, 0, 1) . '***' . substr($emailPhone, -1, 1);
         });*/
 
         RateLimiter::for('auth', function (Request $request) {
