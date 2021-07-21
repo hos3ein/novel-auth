@@ -30,7 +30,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    Constants::$loginMode => Constants::$OPTIONAL_PASSWORD_CODE,
+    Constants::$loginMode => Constants::$OPTIONAL_CODE_PASSWORD,
 
     /*
     |--------------------------------------------------------------------------

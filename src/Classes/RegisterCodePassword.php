@@ -3,12 +3,14 @@
 namespace Hos3ein\NovelAuth\Classes;
 
 use Hos3ein\NovelAuth\Features\Constants;
+use Hos3ein\NovelAuth\NovelAuth;
 use Hos3ein\NovelAuth\Responses\RS;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class RegisterCodePassword
@@ -31,6 +33,9 @@ class RegisterCodePassword
         if (config(Constants::$configRegisterMode) != Constants::$CP_ONLY_PASSWORD) {
             if (config(Constants::$configRegisterMode) == Constants::$CP_CODE_PASSWORD) {
                 if ($request->claims->getClaim('verified', false)) {
+                    $validator = Validator::make(['pass' => $pass1], ['pass' => NovelAuth::passValidationRule()]);
+                    if ($validator->fails())
+                        return RS::back2Passwords($request->claims, $validator->errors()->messages()['pass'][0]);
                     if ($pass1 and $pass1 == $pass2) {
                         $request->tempUser->setCompleteRegistrationUser($pass1);
                         return RS::go2Home($request);

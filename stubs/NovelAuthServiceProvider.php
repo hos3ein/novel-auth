@@ -10,6 +10,7 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Fortify\Rules\Password;
 
 class NovelAuthServiceProvider extends ServiceProvider
 {
@@ -34,9 +35,7 @@ class NovelAuthServiceProvider extends ServiceProvider
         NovelAuth::accountManagerUsing(AccountManager::class);
         NovelAuth::otpManagerUsing(OtpManager::class);
 
-        /*NovelAuth::customValidationRules([
-            'pass_conf' => ['nullable', 'string', (new Password)->length(8)->requireNumeric()->requireUppercase()->requireSpecialCharacter()]
-        ]);*/
+        // NovelAuth::customPassValidationRule((new Password())->length(8)->requireNumeric()->requireUppercase()->requireSpecialCharacter());
         // NovelAuth::viewPrefix('auth.');
 
         /*NovelAuth::emailPhoneValidationUsing(function ($emailPhone) {

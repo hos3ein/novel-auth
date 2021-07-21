@@ -21,8 +21,6 @@ class NovelAuthServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->configureFortify();
-
         $this->configurePublishing();
         $this->configureRoutes();
 
@@ -70,10 +68,5 @@ class NovelAuthServiceProvider extends ServiceProvider
                 $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
             });
         }
-    }
-
-    protected function configureFortify()
-    {
-        //
     }
 }

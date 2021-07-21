@@ -11,7 +11,6 @@ use Hos3ein\NovelAuth\Classes\RegisterCodePassword;
 use Hos3ein\NovelAuth\Classes\RegisterOnlyPassword;
 use Hos3ein\NovelAuth\Contracts\LogoutResponse;
 use Hos3ein\NovelAuth\NovelAuth;
-use Hos3ein\NovelAuth\Requests\AuthRequest;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Routing\Controller;
@@ -24,7 +23,7 @@ class AuthController extends Controller
         return view(NovelAuth::authView(), compact('message'));
     }
 
-    public function store(AuthRequest $request)
+    public function store(Request $request)
     {
         return (new Pipeline(app()))->send($request)->through(array_filter([
             InputValidation::class,

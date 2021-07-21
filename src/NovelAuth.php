@@ -17,17 +17,30 @@ class NovelAuth
         static::$onAuthDoneCallback = $callback;
     }
 
-    private static $customValidationRules;
+    /**
+     * @var string|array
+     */
+    private static $customPassValidationRule;
 
-    public static function customValidationRules(array $rules)
+    /**
+     * @param string|array|Password $rules
+     */
+    public static function customPassValidationRule($rules)
     {
-        static::$customValidationRules = $rules;
+        static::$customPassValidationRule = $rules;
     }
 
-    public static function validationRules(): array
+    /**
+     * @return string|array|Password
+     */
+    public static function passValidationRule()
     {
-        return static::$customValidationRules
-            ?: ['pass_conf' => ['nullable', 'string', (new Password)->length(8)->requireNumeric()->requireUppercase()->requireSpecialCharacter()]];
+        return static::$customPassValidationRule
+            ?: (new Password())
+                ->length(8)
+                ->requireNumeric()
+                ->requireUppercase()
+                ->requireSpecialCharacter();
     }
 
     private static $customEmailPhoneValidationCallback;
