@@ -43,7 +43,7 @@ class AuthController extends Controller
     {
         auth(config(Constants::$configGuard))->logout();
 
-        $request->session()->invalidate();
+        // $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 

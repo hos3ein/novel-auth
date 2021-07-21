@@ -49,10 +49,10 @@ return [
     ],
 
     Constants::$emailTTL => 30, // seconds
-    Constants::$callTTL => 20,
-    Constants::$smsTTL => 3,
-    Constants::$telegramTTL => 5,
-    Constants::$whatsappTTL => 7,
+    Constants::$callTTL => 60,
+    Constants::$smsTTL => 90,
+    Constants::$telegramTTL => 10,
+    Constants::$whatsappTTL => 20,
 
     /*
     |--------------------------------------------------------------------------

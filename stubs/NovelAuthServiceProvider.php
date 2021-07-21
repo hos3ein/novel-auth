@@ -56,7 +56,7 @@ class NovelAuthServiceProvider extends ServiceProvider
         });
 
         /*NovelAuth::onAuthDone(function (Request $request, $user) {
-            if ($request->wantsJson()) {
+            if (config(Constants::$configGuard) == 'api-jwt') {
                 $token = auth('api-jwt')->login($user);
                 return response()->json([
                     'user' => auth('api-jwt')->user(),

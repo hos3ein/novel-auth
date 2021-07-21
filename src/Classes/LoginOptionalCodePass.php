@@ -29,6 +29,7 @@ class LoginOptionalCodePass
             $pass = $request->pass;
             if ($pass) {
                 if (app(HasherContract::class)->check($pass, $request->tempUser->password)) {
+                    $request->tempUser->deleteAllOtpCodes();
                     return RS::go2Home($request);
                 } else
                     return RS::back2Password($request->claims, __('novel-auth::messages.login.pass_error'), $otpOptions, !empty($otpOptions));

@@ -44,8 +44,10 @@ trait HasOtpCodes
             ->where('type', $otpType)
             ->first();
         if ($otpCode) {
-            $ttl = Otp::getOtpTtl($otpType) - now()->diffInSeconds($otpCode->updated_at);
-            return $ttl > 0 ? $ttl : 0;
+            if (!is_null($otpCode->code)) {
+                $ttl = Otp::getOtpTtl($otpType) - now()->diffInSeconds($otpCode->updated_at);
+                return $ttl > 0 ? $ttl : 0;
+            }
         }
         return 0;
     }

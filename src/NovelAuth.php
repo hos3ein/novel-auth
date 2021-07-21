@@ -71,7 +71,7 @@ class NovelAuth
         app()->singleton(OtpManager::class, $callback);
     }
 
-    private static $customViewPrefix = 'novel-auth::auth.';
+    private static $customViewPrefix = 'novel-auth::bootstrap.';
 
     public static function viewPrefix(string $prefix)
     {
