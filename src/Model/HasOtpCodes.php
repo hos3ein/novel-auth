@@ -4,6 +4,7 @@ namespace Hos3ein\NovelAuth\Model;
 
 use Hos3ein\NovelAuth\Classes\Otp;
 use Hos3ein\NovelAuth\Features\Constants;
+use Hos3ein\NovelAuth\NovelAuth;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Crypt;
 use Laravel\Fortify\Contracts\TwoFactorAuthenticationProvider;
@@ -81,18 +82,18 @@ trait HasOtpCodes
         foreach (config(Constants::$configOtpServices) as $service) {
             if ($service == Constants::$OTP_GENERATOR)
                 if ($this->two_factor_secret != null)
-                    $res[] = ['type' => $service, 'id' => 'One-time password generator'];
+                    $res[] = ['type' => $service, 'id' => NovelAuth::incompleteEmailPhone($service, $this->email ?? $this->phone)];
             if ($service == Constants::$OTP_EMAIL)
                 if ($this->email_verified_at != null)
-                    $res[] = ['type' => $service, 'id' => '***' . $this->email];
+                    $res[] = ['type' => $service, 'id' => NovelAuth::incompleteEmailPhone($service, $this->email)];
             if (in_array($service, [Constants::$OTP_CALL, Constants::$OTP_SMS, Constants::$OTP_USSD]))
                 if ($this->phone_verified_at != null)
-                    $res[] = ['type' => $service, 'id' => '***' . $this->phone];
+                    $res[] = ['type' => $service, 'id' => NovelAuth::incompleteEmailPhone($service, $this->phone)];
 
             if (in_array($service, [Constants::$OTP_TELEGRAM, Constants::$OTP_WHATSAPP])) {
                 $t = $this->otpCodes()->where('type', $service)->first();
                 if ($t and $t->payload['active'] == true)
-                    $res[] = ['type' => $service, 'id' => '***' . $this->phone];
+                    $res[] = ['type' => $service, 'id' => NovelAuth::incompleteEmailPhone($service, $this->phone)];
             }
         }
         return $res;

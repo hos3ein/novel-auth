@@ -5,7 +5,6 @@ namespace Hos3ein\NovelAuth;
 use Hos3ein\NovelAuth\Contracts\AccountManager;
 use Hos3ein\NovelAuth\Contracts\OtpManager;
 use Hos3ein\NovelAuth\Features\Constants;
-use Illuminate\Support\Str;
 use Laravel\Fortify\Rules\Password;
 
 class NovelAuth
@@ -59,6 +58,30 @@ class NovelAuth
                 else
                     return array(filter_var($emailPhone, FILTER_VALIDATE_EMAIL), Constants::$EMAIL_MODE);
             };
+    }
+
+    private static $customIncompleteEmailPhoneCallback;
+
+    public static function incompleteEmailPhoneUsing(callable $callback)
+    {
+        static::$customIncompleteEmailPhoneCallback = $callback;
+    }
+
+    public static function incompleteEmailPhone($otpType, $emailPhone)
+    {
+        if (self::$customIncompleteEmailPhoneCallback)
+            return call_user_func(self::$customIncompleteEmailPhoneCallback, $otpType, $emailPhone);
+        if ($otpType == Constants::$OTP_GENERATOR)
+            return __('novel-auth::messages.otp_generator_app');
+        if ($otpType == Constants::$OTP_EMAIL) {
+            $em = preg_split('/@/', $emailPhone);
+            return count($em[0]) < 5
+                ? $emailPhone
+                : substr($em[0], 0, 2) . '*****' . substr($em[0], -2, 2) . '@' . $em[1];
+        }
+        return count($emailPhone) < 7
+            ? $emailPhone
+            : substr($emailPhone, 0, count($emailPhone) - 7) . '****' . substr($emailPhone, -count($emailPhone) - 2, 4);
     }
 
     public static function accountManagerUsing(string $callback)

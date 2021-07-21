@@ -7,7 +7,7 @@
 
         <div class="mb-3">{{ $message ?? '' }}</div>
 
-        <div class="form-floating mb-3">
+        <div dir="ltr" class="form-floating mb-3">
             <input name="code" class="form-control" id="floatingInput" placeholder="{{ __('novel-auth::messages.code') }}" required>
             <label for="floatingInput">{{ __('novel-auth::messages.code') }}</label>
         </div>

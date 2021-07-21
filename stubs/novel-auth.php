@@ -88,6 +88,8 @@ return [
     Constants::$views => true,
     Constants::$middleware => ['web'],
     Constants::$guard => 'web',
-    Constants::$limiters => [Constants::$limitersAuth => 'auth'],
+    Constants::$limiters => [
+        Constants::$limitersAuth => 'auth'
+    ],
     Constants::$secretKey => config('app.key'),
 ];

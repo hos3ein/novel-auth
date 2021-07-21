@@ -8,6 +8,7 @@ return [
     ],
     'auth' => 'Enter Email/Phone to login or register',
 
+    "otp_generator_app" => "OTP Generator App",
     "home" => "Home",
     "restart" => "Restart",
     "logout" => "Logout",
