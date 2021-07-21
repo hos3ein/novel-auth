@@ -81,7 +81,7 @@ class NovelAuth
         }
         return strlen($emailPhone) < 7
             ? $emailPhone
-            : substr($emailPhone, 0, strlen($emailPhone) - 7) . '****' . substr($emailPhone, -strlen($emailPhone) - 2, 4);
+            : substr($emailPhone, 0, strlen($emailPhone) - 7) . '****' . substr($emailPhone, -3, 3);
     }
 
     public static function accountManagerUsing(string $callback)
