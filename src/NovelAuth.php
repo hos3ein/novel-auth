@@ -75,13 +75,13 @@ class NovelAuth
             return __('novel-auth::messages.otp_generator_app');
         if ($otpType == Constants::$OTP_EMAIL) {
             $em = preg_split('/@/', $emailPhone);
-            return count($em[0]) < 5
+            return strlen($em[0]) < 5
                 ? $emailPhone
                 : substr($em[0], 0, 2) . '*****' . substr($em[0], -2, 2) . '@' . $em[1];
         }
-        return count($emailPhone) < 7
+        return strlen($emailPhone) < 7
             ? $emailPhone
-            : substr($emailPhone, 0, count($emailPhone) - 7) . '****' . substr($emailPhone, -count($emailPhone) - 2, 4);
+            : substr($emailPhone, 0, strlen($emailPhone) - 7) . '****' . substr($emailPhone, -strlen($emailPhone) - 2, 4);
     }
 
     public static function accountManagerUsing(string $callback)
