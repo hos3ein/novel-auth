@@ -50,8 +50,10 @@ class Otp
             if ($force_otp_type == 'otp_options') {  // client request otp_options page
                 $request->force_otp_type = null;
                 $force_otp_type = null;
-                $otp_type = 'null';
                 $request->claims = TM::removeFromClaims($request->claims, 'otp_type');
+                return RS::go2CodeOptions($request->claims,
+                    __('novel-auth::messages.otp.options'),
+                    self::getRegisterPhoneOptServices($emailPhone));
             }
             if ($force_otp_type) {
                 return self::sendOtp2Phone($request, $force_otp_type);

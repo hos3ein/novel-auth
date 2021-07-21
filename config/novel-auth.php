@@ -10,9 +10,8 @@ return [
     Constants::$defaultRegisterPhoneOptService => null,
 
     Constants::$loginMode => Constants::$OPTIONAL_PASSWORD_CODE,
-    Constants::$otpServices => [],
 
-    Constants::$encryptOtpCode => true,
+    Constants::$otpServices => [],
 
     Constants::$emailTTL => 30, // seconds
     Constants::$callTTL => 20,
@@ -22,13 +21,15 @@ return [
 
     Constants::$tokenExpiration => '+5 hour',
     Constants::$otpCodeTtl => '2 hour', // acceptable code up to 2 hours
+    Constants::$encryptOtpCode => true,
 
     Constants::$prefix => '',
     Constants::$domain => null,
+
+    Constants::$home => '/dashboard',
+    Constants::$views => true,
     Constants::$middleware => ['web'],
     Constants::$guard => 'web',
-    Constants::$views => true,
     Constants::$limiters => [Constants::$limitersAuth => 'auth'],
     Constants::$secretKey => config('app.key'),
-    Constants::$home => '/dashboard',
 ];

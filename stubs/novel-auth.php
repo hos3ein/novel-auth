@@ -8,30 +8,45 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Fortify Routes Prefix / Subdomain
+    | Register Configs
     |--------------------------------------------------------------------------
-    |
-    | Here you may specify which prefix Fortify will assign to all the routes
-    | that it registers with the application. If necessary, you may change
-    | subdomain under which all of the Fortify routes will be available.
-    |
     */
-    Constants::$prefix => '',
-    Constants::$domain => null,
+
+    Constants::$registerMethods => [
+        Constants::$EMAIL_MODE,
+        Constants::$PHONE_MODE
+    ],
+    Constants::$registerMode => Constants::$CP_CODE_PASSWORD,
+    Constants::$registerPhoneOptServices => [
+        Constants::$OTP_CALL,
+        Constants::$OTP_SMS,
+        Constants::$OTP_USSD
+    ],
+    Constants::$defaultRegisterPhoneOptService => Constants::$OTP_SMS,
 
     /*
     |--------------------------------------------------------------------------
+    | Login Configs
+    |--------------------------------------------------------------------------
     */
 
-    Constants::$registerMethods => [Constants::$EMAIL_MODE, Constants::$PHONE_MODE],
-    Constants::$registerMode => Constants::$CP_CODE_PASSWORD,
-    Constants::$registerPhoneOptServices => [Constants::$OTP_CALL, Constants::$OTP_SMS, Constants::$OTP_USSD],
-    Constants::$defaultRegisterPhoneOptService => Constants::$OTP_SMS,
-
     Constants::$loginMode => Constants::$OPTIONAL_PASSWORD_CODE,
-    Constants::$otpServices => [Constants::$OTP_EMAIL, Constants::$OTP_CALL, Constants::$OTP_SMS, Constants::$OTP_USSD, Constants::$OTP_TELEGRAM, Constants::$OTP_WHATSAPP, Constants::$OTP_GENERATOR],
 
-    Constants::$encryptOtpCode => true,
+    /*
+    |--------------------------------------------------------------------------
+    | OTP Services Configs
+    |--------------------------------------------------------------------------
+    */
+
+    Constants::$otpServices => [
+        Constants::$OTP_EMAIL,
+        Constants::$OTP_CALL,
+        Constants::$OTP_SMS,
+        Constants::$OTP_USSD,
+        Constants::$OTP_TELEGRAM,
+        Constants::$OTP_WHATSAPP,
+        Constants::$OTP_GENERATOR
+    ],
 
     Constants::$emailTTL => 30, // seconds
     Constants::$callTTL => 20,
@@ -39,13 +54,40 @@ return [
     Constants::$telegramTTL => 5,
     Constants::$whatsappTTL => 7,
 
+    /*
+    |--------------------------------------------------------------------------
+    |
+    |--------------------------------------------------------------------------
+    */
+
     Constants::$tokenExpiration => '+5 hour',
     Constants::$otpCodeTtl => '2 hour', // acceptable code up to 2 hours
+    Constants::$encryptOtpCode => true,
 
+    /*
+    |--------------------------------------------------------------------------
+    | NovelAuth Routes Prefix / Subdomain
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify which prefix NovelAuth will assign to all the routes
+    | that it registers with the application. If necessary, you may change
+    | subdomain under which all of the NovelAuth routes will be available.
+    |
+    */
+
+    Constants::$prefix => '',
+    Constants::$domain => null,
+
+    /*
+    |--------------------------------------------------------------------------
+    |
+    |--------------------------------------------------------------------------
+    */
+
+    Constants::$home => '/dashboard',
+    Constants::$views => true,
     Constants::$middleware => ['web'],
     Constants::$guard => 'web',
-    Constants::$views => true,
     Constants::$limiters => [Constants::$limitersAuth => 'auth'],
     Constants::$secretKey => config('app.key'),
-    Constants::$home => '/dashboard',
 ];

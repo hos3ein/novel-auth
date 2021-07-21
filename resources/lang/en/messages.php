@@ -7,6 +7,20 @@ return [
         'consumed' => 'Consumed Token',
     ],
     'auth' => 'Enter Email/Phone to login or register',
+
+    "home" => "Home",
+    "restart" => "Restart",
+    "logout" => "Logout",
+    "email/phone" => "Email/Phone",
+    "submit" => "Submit",
+    "code" => "Code",
+    "password" => "Password",
+    "password_confirmation" => "Password confirmation",
+    "login_with_password" => "Login with password",
+    "login_with_otp" => "Login with OTP",
+    "resend_otp" => "Resend OTP",
+    "select_another_otp" => "Select another OTP",
+
     'users' => [
         'inactive' => 'Your account is deactivated',
     ],
