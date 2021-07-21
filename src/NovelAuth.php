@@ -52,10 +52,10 @@ class NovelAuth
 
     public static function emailPhoneValidationCallback(): \Closure
     {
-        return static::$customEmailPhoneValidationCallback // TODO
+        return static::$customEmailPhoneValidationCallback
             ?: function ($emailPhone) {
                 if (is_numeric($emailPhone))
-                    return array(Str::length($emailPhone) > 0 and Str::length($emailPhone) < 10, Constants::$PHONE_MODE);
+                    return array(preg_match("/^(\+\d{1,3})+\d{10}$/", $emailPhone), Constants::$PHONE_MODE);
                 else
                     return array(filter_var($emailPhone, FILTER_VALIDATE_EMAIL), Constants::$EMAIL_MODE);
             };

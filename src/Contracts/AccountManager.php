@@ -15,4 +15,5 @@ interface AccountManager
      * @return Model|HasOtpCodes|TwoFactorAuthenticatable|NovelAuthAuthenticatable
      */
     public function findOrCreateIncompleteRegistrationUser($emailPhone, $inputType);
+    // TODO: get model from provider
 }
