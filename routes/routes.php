@@ -2,11 +2,7 @@
 
 use Hos3ein\NovelAuth\Features\Constants;
 use Hos3ein\NovelAuth\Http\Controllers\AuthController;
-use Hos3ein\NovelAuth\NovelAuth;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Http\Controllers\RecoveryCodeController;
-use Laravel\Fortify\Http\Controllers\TwoFactorQrCodeController;
 
 Route::group(['as' => 'auth.', 'middleware' => config(Constants::$configMiddleware, ['web'])], function () {
     $enableViews = config(Constants::$configViews, true);

@@ -52,7 +52,7 @@ class NovelAuth
 
     public static function emailPhoneValidationCallback(): \Closure
     {
-        return static::$customEmailPhoneValidationCallback
+        return static::$customEmailPhoneValidationCallback // TODO
             ?: function ($emailPhone) {
                 if (is_numeric($emailPhone))
                     return array(Str::length($emailPhone) > 0 and Str::length($emailPhone) < 10, Constants::$PHONE_MODE);

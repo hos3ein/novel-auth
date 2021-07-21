@@ -10,6 +10,7 @@ use Hos3ein\NovelAuth\Classes\LoginPasswordCode;
 use Hos3ein\NovelAuth\Classes\RegisterCodePassword;
 use Hos3ein\NovelAuth\Classes\RegisterOnlyPassword;
 use Hos3ein\NovelAuth\Contracts\LogoutResponse;
+use Hos3ein\NovelAuth\Features\Constants;
 use Hos3ein\NovelAuth\NovelAuth;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
@@ -40,7 +41,7 @@ class AuthController extends Controller
 
     public function destroy(Request $request)
     {
-        auth()->logout();
+        auth(config(Constants::$configGuard))->logout();
 
         $request->session()->invalidate();
 
