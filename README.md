@@ -1,7 +1,6 @@
 ## Novel Auth
 
 [![Latest Stable Version](http://poser.pugx.org/hos3ein/novel-auth/v)](https://packagist.org/packages/hos3ein/novel-auth)
-[![Total Downloads](http://poser.pugx.org/hos3ein/novel-auth/downloads)](https://packagist.org/packages/hos3ein/novel-auth)
 [![Packagist Download](https://img.shields.io/packagist/dt/hos3ein/novel-auth)](https://packagist.org/packages/hos3ein/novel-auth)
 [![Latest Unstable Version](http://poser.pugx.org/hos3ein/novel-auth/v/unstable)](https://packagist.org/packages/hos3ein/novel-auth)
 [![Packagist Stars](https://img.shields.io/packagist/stars/hos3ein/novel-auth)](https://packagist.org/packages/hos3ein/novel-auth)
@@ -10,7 +9,7 @@
 
 * Laravel authentication with password or otp or both and highly configurable
 
-## Install NovelAuth
+## Install
 
 ```shell
 composer require hos3ein/novel-auth
@@ -24,10 +23,17 @@ php artisan vendor:publish --provider="Hos3ein\NovelAuth\NovelAuthServiceProvide
 php artisan migrate
 ```
 
-add `NovelAuthServiceProvider` to `app.php` in `providers` array
+## The Novel Auth Service Provider
+
+The `vendor:publish` command discussed above will also publish the `App\Providers\NovelAuthServiceProvider` class. You
+should ensure this class is registered within the `providers` array of your application's `config/app.php` configuration
+file.
 
 ```php
-App\Providers\NovelAuthServiceProvider::class
+'providers' => [
+    // ...
+    App\Providers\NovelAuthServiceProvider::class
+]
 ```
 
 Add `HasOtpCodes` and `NovelAuthAuthenticatable` to your eloquent model
@@ -40,29 +46,10 @@ class User extends Authenticatable
 }
 ```
 
-## Extra settings
+## Final step
 
-Define `redirectTo` in `App\Http\Middleware\Authenticate.php`
+Implement methods in `App\Actions\NovelAuth\OtpManager.php` in order to do how to send SMS or make a Call and others.
 
-```php
-App\Http\Middleware\Authenticate
-```
-
-
-install fortify and migrate
-use TwoFactorAuthenticatable in User
-
-Override Fortify `twoFactorQrCodeUrl()` in 'User.php'
-```php
-public function twoFactorQrCodeUrl()
-{
-    return app(TwoFactorAuthenticationProvider::class)->qrCodeUrl(
-        config('app.name'),
-        $this->email ?? $this->phone,
-        decrypt($this->two_factor_secret)
-    );
-}
-```
 ## License
 
 Novel-Auth is open-sourced software licensed under the [MIT license](LICENSE.md).
