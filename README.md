@@ -7,7 +7,7 @@
 [![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/hos3ein/novel-auth)](https://packagist.org/packages/hos3ein/novel-auth)
 [![License](http://poser.pugx.org/hos3ein/novel-auth/license)](https://packagist.org/packages/hos3ein/novel-auth)
 
-* Laravel authentication with password or otp or both and highly configurable
+* Laravel authentication with Password or OTP or both and highly configurable
 
 ## Sample
 
