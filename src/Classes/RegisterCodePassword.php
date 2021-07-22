@@ -60,7 +60,7 @@ class RegisterCodePassword
                     $inputType = $request->claims->getClaim('input_type');
                     $emailPhone = $request->claims->getClaim('email_phone');
                     $otpOptions = $inputType == Constants::$EMAIL_MODE
-                        ? ['type' => Constants::$OTP_EMAIL, 'id' => $emailPhone]
+                        ? [['type' => Constants::$OTP_EMAIL, 'id' => $emailPhone]]
                         : Otp::getRegisterPhoneOptServices($emailPhone);
                     $remainingTtl = $request->tempUser->getRemainingTtlFromLastSend($otpType);
                     return RS::back2Code($request->claims, __('novel-auth::messages.otp.error.invalid_code'), $otpOptions, $otpType, $remainingTtl);
