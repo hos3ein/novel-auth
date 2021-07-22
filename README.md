@@ -57,4 +57,4 @@ Implement methods in `App\Actions\NovelAuth\OtpManager.php` in order to do how t
 
 ## License
 
-Novel-Auth is open-sourced software licensed under the [MIT license](LICENSE.md).
+The Novel-Auth is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
