@@ -9,6 +9,11 @@
 
 * Laravel authentication with password or otp or both and highly configurable
 
+## Sample
+
+* Source: [NovelAuth sample with multiple guard](https://github.com/hos3ein/novel-auth-sample)
+* Demo:  [http://novel-auth.herokuapp.com/](http://novel-auth.herokuapp.com)
+
 ## Install
 
 ```shell
