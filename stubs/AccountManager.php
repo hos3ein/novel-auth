@@ -10,10 +10,11 @@ class AccountManager implements AccountManagerContacts
 {
     public function findOrCreateIncompleteRegistrationUser($emailPhone, $inputType)
     {
-        $user = User::where($inputType == Constants::$EMAIL_MODE ? 'email' : 'phone', $emailPhone)->first();
+        $model = auth(config(Constants::$configGuard))->getProvider()->getModel();
+        $user = $model::where($inputType == Constants::$EMAIL_MODE ? 'email' : 'phone', $emailPhone)->first();
         if ($user)
             return $user;
-        $user = new User();
+        $user = new $model();
         if ($inputType == Constants::$EMAIL_MODE)
             $user->email = $emailPhone;
         else

@@ -10,7 +10,7 @@ use Lcobucci\JWT\Token;
 
 class RS
 {
-    public static function resJson($nextPage, Token $token, $msg, $err = null, $otpOptions = null, $otpType = null, $ttl = null, $canPassword = false, $canOtp = false): JsonResponse
+    public static function resJson($nextPage, ?Token $token, $msg, $err = null, $otpOptions = null, $otpType = null, $ttl = null, $canPassword = false, $canOtp = false): JsonResponse
     {
         $data = [
             'next_page' => $nextPage,
