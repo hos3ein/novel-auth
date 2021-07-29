@@ -41,7 +41,7 @@ class NovelAuthServiceProvider extends ServiceProvider
             ], 'novel-auth-config');
 
             $this->publishes([
-                __DIR__ . '/../stubs/AccountManager.php' => app_path('Actions/NovelAuth/AccountManager.php'),
+                // __DIR__ . '/../stubs/AccountManager.php' => app_path('Actions/NovelAuth/AccountManager.php'),
                 __DIR__ . '/../stubs/OtpManager.php' => app_path('Actions/NovelAuth/OtpManager.php'),
                 __DIR__ . '/../stubs/NovelAuthServiceProvider.php' => app_path('Providers/NovelAuthServiceProvider.php'),
             ], 'novel-auth-support');

@@ -20,8 +20,11 @@ class CheckLoginRegister
      */
     public function handle(Request $request, $next)
     {
-        $accountManager = app(AccountManager::class);
-        $request->tempUser = $accountManager->findOrCreateIncompleteRegistrationUser($request->claims->getClaim('email_phone'), $request->claims->getClaim('input_type'));
+        $request->tempUser = app(AccountManager::class)->findOrCreateIncompleteRegistrationUser(
+            auth(config(Constants::$configGuard))->getProvider()->getModel(),
+            $request->claims->getClaim('email_phone'),
+            $request->claims->getClaim('input_type')
+        );
 
         if ($request->tempUser->isCompleteRegistrationUser()) {
             if (is_null(config(Constants::$configLoginMode)))

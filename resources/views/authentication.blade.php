@@ -235,7 +235,7 @@
                 toggleBlock2(true);
                 if (data.data.can_password === true)
                     toggleBlock(true, [btnChange2pass]);
-            } else if (data.data.next_page == 'code_options') {
+            } else if (data.data.next_page == 'otp_options') {
                 otpOptions = data.data.otp_options;
                 toggleBlock1(false);
                 showOtpOptions(data.data.otp_options);
@@ -373,7 +373,7 @@
             toggleBlock5(true);
             if (data.data.next_page == 'home') {
                 //
-            } else if (data.data.next_page == 'code_options') {
+            } else if (data.data.next_page == 'otp_options') {
                 loginCodePassToken = data.data.token;
                 toggleBlock5(false);
                 showOtpOptions(data.data.otp_options);

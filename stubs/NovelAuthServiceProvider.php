@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Actions\NovelAuth\AccountManager;
 use App\Actions\NovelAuth\OtpManager;
+use Hos3ein\NovelAuth\Classes\AccountManager;
 use Hos3ein\NovelAuth\Classes\TM;
 use Hos3ein\NovelAuth\NovelAuth;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -32,11 +32,13 @@ class NovelAuthServiceProvider extends ServiceProvider
     {
         // NovelAuth::ignoreRoutes();
         NovelAuth::accountManagerUsing(AccountManager::class);
+        // NovelAuth::accountManagerUsing(\App\Actions\NovelAuth\CustomAccountManager::class);
         NovelAuth::otpManagerUsing(OtpManager::class);
 
         // NovelAuth::customPassValidationRule((new Password())->length(8)->requireNumeric()->requireUppercase()->requireSpecialCharacter());
         // NovelAuth::customPassValidationRule('min:6');
         // NovelAuth::viewPrefix('auth.');
+        // NovelAuth::viewPrefix('novel-auth::bootstrap.');
 
         /*NovelAuth::emailPhoneValidationUsing(function ($emailPhone) {
             if (is_numeric($emailPhone))

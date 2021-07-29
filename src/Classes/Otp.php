@@ -51,7 +51,7 @@ class Otp
                 $request->force_otp_type = null;
                 $force_otp_type = null;
                 $request->claims = TM::removeFromClaims($request->claims, 'otp_type');
-                return RS::go2CodeOptions($request->claims,
+                return RS::go2OtpOptions($request->claims,
                     __('novel-auth::messages.otp.options'),
                     self::getRegisterPhoneOptServices($emailPhone));
             }
@@ -65,7 +65,7 @@ class Otp
                     if (in_array($df, config(Constants::$configRegisterPhoneOptServices))) {
                         return self::sendOtp2Phone($request, $df);
                     } else {
-                        return RS::go2CodeOptions($request->claims,
+                        return RS::go2OtpOptions($request->claims,
                             __('novel-auth::messages.otp.options'),
                             self::getRegisterPhoneOptServices($emailPhone));
                     }
@@ -90,7 +90,7 @@ class Otp
                     if (count(config(Constants::$configRegisterPhoneOptServices)) == 1)
                         return RS::back2Auth(__('novel-auth::messages.otp.error.' . $type, ['identifier' => $emailPhone]));
                     else
-                        return RS::back2CodeOptions($request->claims,
+                        return RS::back2OtpOptions($request->claims,
                             __('novel-auth::messages.otp.error.' . $type, ['identifier' => $emailPhone]),
                             self::getRegisterPhoneOptServices($emailPhone));
                 }
@@ -217,7 +217,7 @@ class Otp
                 $otpType = $otpOptions[0]['type'];
                 return self::sendCertainOtp($request, $otpOptions, $otpType, $canPassword);
             } else {
-                return RS::go2CodeOptions($request->claims, __('novel-auth::messages.otp.options'), $otpOptions, $canPassword);
+                return RS::go2OtpOptions($request->claims, __('novel-auth::messages.otp.options'), $otpOptions, $canPassword);
             }
         }
     }
@@ -249,7 +249,7 @@ class Otp
                         return RS::back2Password($request->claims, $msg . ' . ' . __('novel-auth::messages.login.one_otp_error_use_pass'), $otpOptions, !empty($otpOptions));
                     return RS::back2Auth($msg);
                 } else {
-                    return RS::back2CodeOptions($request->claims,
+                    return RS::back2OtpOptions($request->claims,
                         __('novel-auth::messages.otp.error.' . $type, ['identifier' => $identifier]),
                         $otpOptions, $canPassword);
                 }

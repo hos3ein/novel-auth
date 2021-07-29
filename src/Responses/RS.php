@@ -97,19 +97,19 @@ class RS
         return view(NovelAuth::codeView(), compact('token_rc', 'message', 'otpOptions', 'otpType', 'ttl', 'canPassword'))->withErrors([$err]);
     }
 
-    public static function go2CodeOptions($token_rc, $message, $otpOptions, $canPassword = false)
+    public static function go2OtpOptions($token_rc, $message, $otpOptions, $canPassword = false)
     {
         if (request()->wantsJson())
-            return self::resJson('code_options', $token_rc, $message, null, $otpOptions, null, null, $canPassword);
-        return view(NovelAuth::codeOptionsView(), compact('token_rc', 'message', 'otpOptions', 'canPassword'));
+            return self::resJson('otp_options', $token_rc, $message, null, $otpOptions, null, null, $canPassword);
+        return view(NovelAuth::otpOptionsView(), compact('token_rc', 'message', 'otpOptions', 'canPassword'));
     }
 
-    public static function back2CodeOptions($token_rc, $err, $otpOptions, $canPassword = false)
+    public static function back2OtpOptions($token_rc, $err, $otpOptions, $canPassword = false)
     {
         $message = __('novel-auth::otp.options');
         if (request()->wantsJson())
-            return self::resJson('code_options', $token_rc, $message, $err, $otpOptions, null, null, $canPassword);
-        return view(NovelAuth::codeOptionsView(), compact('token_rc', 'message', 'otpOptions', 'canPassword'))->withErrors([$err]);
+            return self::resJson('otp_options', $token_rc, $message, $err, $otpOptions, null, null, $canPassword);
+        return view(NovelAuth::otpOptionsView(), compact('token_rc', 'message', 'otpOptions', 'canPassword'))->withErrors([$err]);
     }
 
 }

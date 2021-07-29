@@ -10,10 +10,11 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 interface AccountManager
 {
     /**
+     * @param $model
      * @param $emailPhone
      * @param $inputType
      * @return Model|HasOtpCodes|TwoFactorAuthenticatable|NovelAuthAuthenticatable
      */
-    public function findOrCreateIncompleteRegistrationUser($emailPhone, $inputType);
+    public function findOrCreateIncompleteRegistrationUser($model, $emailPhone, $inputType);
     // TODO: get model from provider
 }

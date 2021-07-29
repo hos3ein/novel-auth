@@ -70,8 +70,6 @@ class InputValidation
             }
         }
 
-        throw ValidationException::withMessages(
-            [__('novel-auth::messages.email_phone.invalid.' . ($inputType == Constants::$EMAIL_MODE ? 'email' : 'phone'))]
-        );
+        return RS::back2Auth(__('novel-auth::messages.email_phone.invalid.' . ($inputType == Constants::$EMAIL_MODE ? 'email' : 'phone')));
     }
 }

@@ -121,9 +121,9 @@ class NovelAuth
         return static::$customViewPrefix . 'code';
     }
 
-    public static function codeOptionsView(): string
+    public static function otpOptionsView(): string
     {
-        return static::$customViewPrefix . 'code_options';
+        return static::$customViewPrefix . 'otp_options';
     }
 
     /**
