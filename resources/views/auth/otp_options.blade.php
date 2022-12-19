@@ -4,7 +4,7 @@
 @section('content')
     <form method="post" action="{{route('auth.attempt')}}">
         @csrf
-        <input type="hidden" name="token_rc" value="{{$token_rc}}">
+        <input type="hidden" name="token_rc" value="{{$token_rc->toString()}}">
         <div>Choose one:</div>
         @foreach($otpOptions as $option)
             <label>

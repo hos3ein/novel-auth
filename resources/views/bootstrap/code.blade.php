@@ -3,7 +3,7 @@
 
     <form method="post" action="{{route('auth.auth')}}">
         @csrf
-        <input type="hidden" name="token_rc" value="{{$token_rc}}">
+        <input type="hidden" name="token_rc" value="{{$token_rc->toString()}}">
 
         <div class="mb-3">{{ $message ?? '' }}</div>
 
