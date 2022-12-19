@@ -71,13 +71,10 @@ class TM
         } elseif ($name == RegisteredClaims::AUDIENCE) {
             $builder->permittedFor($value);
         } elseif ($name == RegisteredClaims::NOT_BEFORE) {
-            dd($name, $value);
             $builder->canOnlyBeUsedAfter($value);
         } elseif ($name == RegisteredClaims::EXPIRATION_TIME) {
-            dd($name, $value);
             $builder->expiresAt($value);
         } elseif ($name == RegisteredClaims::ISSUED_AT) {
-            dd($name, $value);
             $builder->issuedAt($value);
         } elseif ($name == RegisteredClaims::ISSUER) {
             $builder->issuedBy($value);
