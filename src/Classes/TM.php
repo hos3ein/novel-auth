@@ -73,10 +73,13 @@ class TM
         } elseif ($name == RegisteredClaims::AUDIENCE) {
             return $builder->permittedFor($value);
         } elseif ($name == RegisteredClaims::NOT_BEFORE) {
+            if (is_int($value)) $value = (new DateTimeImmutable())->setTimestamp($value);
             return $builder->canOnlyBeUsedAfter($value);
         } elseif ($name == RegisteredClaims::EXPIRATION_TIME) {
+            if (is_int($value)) $value = (new DateTimeImmutable())->setTimestamp($value);
             return $builder->expiresAt($value);
         } elseif ($name == RegisteredClaims::ISSUED_AT) {
+            if (is_int($value)) $value = (new DateTimeImmutable())->setTimestamp($value);
             return $builder->issuedAt($value);
         } elseif ($name == RegisteredClaims::ISSUER) {
             return $builder->issuedBy($value);
