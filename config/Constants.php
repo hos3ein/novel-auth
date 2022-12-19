@@ -50,6 +50,9 @@ class Constants
     public static $OTP_WHATSAPP = 'whatsapp';
     public static $OTP_GENERATOR = 'otp_generator';
 
+    public static $configOptLength = 'novel-auth.otp_length';
+    public static $optLength = 'otp_length';
+
     public static $configEmailTTL = 'novel-auth.email_ttl';
     public static $emailTTL = 'email_ttl';
 

@@ -153,7 +153,9 @@ class Otp
      */
     public static function sendOtp($user, $type)
     {
-        $code = random_int(10, 99);
+        $length = config(Constants::$configOptLength);
+        if ($length < 1) $length = 1;
+        $code = random_int(10 ** ($length - 1), 10 ** $length - 1);
         $status = false;
 
         $otpManager = app(OtpManager::class);

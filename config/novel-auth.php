@@ -13,6 +13,7 @@ return [
 
     Constants::$otpServices => [],
 
+    Constants::$optLength => 2,
     Constants::$emailTTL => 30, // seconds
     Constants::$callTTL => 20,
     Constants::$smsTTL => 3,
