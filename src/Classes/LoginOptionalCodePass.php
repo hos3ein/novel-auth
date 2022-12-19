@@ -32,36 +32,36 @@ class LoginOptionalCodePass
                     $request->tempUser->deleteAllOtpCodes();
                     return RS::go2Home($request);
                 } else
-                    return RS::back2Password($request->claims, __('novel-auth::messages.login.pass_error'), $otpOptions, !empty($otpOptions));
+                    return RS::back2Password($request->plain_token, __('novel-auth::messages.login.pass_error'), $otpOptions, !empty($otpOptions));
             }
 
             $code = $request->code;
             if ($code) {
-                $otpType = $request->claims->getClaim('otp_type');
+                $otpType = $request->plain_token->claims()->get('otp_type');
                 if ($request->tempUser->verifyCode($otpType, $code)) {
-                    $request->tempUser->setVerifyAt($request->claims->getClaim('input_type') == Constants::$EMAIL_MODE ? 'email' : 'phone');
+                    $request->tempUser->setVerifyAt($request->plain_token->claims()->get('input_type') == Constants::$EMAIL_MODE ? 'email' : 'phone');
                     $request->tempUser->deleteAllOtpCodes();
                     return RS::go2Home($request);
                 } else {
                     $remainingTtl = $request->tempUser->getRemainingTtlFromLastSend($otpType);
-                    return RS::back2Code($request->claims, __('novel-auth::messages.otp.error.invalid_code'), $otpOptions, $otpType, $remainingTtl, true);
+                    return RS::back2Code($request->plain_token, __('novel-auth::messages.otp.error.invalid_code'), $otpOptions, $otpType, $remainingTtl, true);
                 }
             }
 
             $force_otp_type = $request->force_otp_type;
             if ($force_otp_type) {
                 if ($force_otp_type == 'password')
-                    return RS::go2Password($request->claims, __('novel-auth::messages.login.pass'), $otpOptions, !empty($otpOptions));
+                    return RS::go2Password($request->plain_token, __('novel-auth::messages.login.pass'), $otpOptions, !empty($otpOptions));
                 else if ($force_otp_type == 'otp_options') {  // client request otp_options page
                     $request->force_otp_type = null;
-                    $request->claims = TM::removeFromClaims($request->claims, 'otp_type');
+                    $request->plain_token = TM::removeFromClaims($request->plain_token, 'otp_type');
                 }
             } else {
                 if (config(Constants::$configLoginMode) == Constants::$OPTIONAL_PASSWORD_CODE) {
-                    return RS::go2Password($request->claims, __('novel-auth::messages.login.pass'), $otpOptions, !empty($otpOptions));
+                    return RS::go2Password($request->plain_token, __('novel-auth::messages.login.pass'), $otpOptions, !empty($otpOptions));
                 } else {
                     if (empty($otpOptions)) {
-                        return RS::go2Password($request->claims, __('novel-auth::messages.login.no_otp_use_pass'), null, false);
+                        return RS::go2Password($request->plain_token, __('novel-auth::messages.login.no_otp_use_pass'), null, false);
                     }
                 }
             }

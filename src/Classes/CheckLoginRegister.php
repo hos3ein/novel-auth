@@ -22,8 +22,8 @@ class CheckLoginRegister
     {
         $request->tempUser = app(AccountManager::class)->findOrCreateIncompleteRegistrationUser(
             auth(config(Constants::$configGuard))->getProvider()->getModel(),
-            $request->claims->getClaim('email_phone'),
-            $request->claims->getClaim('input_type')
+            $request->plain_token->claims()->get('email_phone'),
+            $request->plain_token->claims()->get('input_type')
         );
 
         if ($request->tempUser->isCompleteRegistrationUser()) {
@@ -34,8 +34,8 @@ class CheckLoginRegister
         } else {
             if (empty(config(Constants::$configRegisterMethods)))
                 return RS::back2Auth(__('novel-auth::messages.register.disabled'));
-            if (!in_array($request->claims->getClaim('input_type'), config(Constants::$configRegisterMethods)))
-                return RS::back2Auth(__('novel-auth::messages.register.with_' . ($request->claims->getClaim('input_type') == Constants::$EMAIL_MODE ? 'phone' : 'email')));
+            if (!in_array($request->plain_token->claims()->get('input_type'), config(Constants::$configRegisterMethods)))
+                return RS::back2Auth(__('novel-auth::messages.register.with_' . ($request->plain_token->claims()->get('input_type') == Constants::$EMAIL_MODE ? 'phone' : 'email')));
         }
         return $next($request);
     }

@@ -33,15 +33,15 @@ class RegisterOnlyPassword
             if ($pass1) {
                 $validator = Validator::make(['pass' => $pass1], ['pass' => NovelAuth::passValidationRule()]);
                 if ($validator->fails())
-                    return RS::back2Passwords($request->claims, $validator->errors()->messages()['pass'][0]);
+                    return RS::back2Passwords($request->plain_token, $validator->errors()->messages()['pass'][0]);
 
                 if ($pass1 == $pass2) {
                     $request->tempUser->setCompleteRegistrationUser($pass1);
                     return RS::go2Home($request);
                 } else
-                    return RS::back2Passwords($request->claims, __('novel-auth::messages.register.pass_conf'));
+                    return RS::back2Passwords($request->plain_token, __('novel-auth::messages.register.pass_conf'));
             }
-            return RS::go2Passwords($request->claims, __('novel-auth::messages.register.passes'));
+            return RS::go2Passwords($request->plain_token, __('novel-auth::messages.register.passes'));
         }
         return $next($request);
     }

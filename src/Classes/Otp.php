@@ -15,19 +15,19 @@ class Otp
 {
     public static function sendOtpRegister(Request $request)
     {
-        $emailPhone = $request->claims->getClaim('email_phone');
-        $inputType = $request->claims->getClaim('input_type');
+        $emailPhone = $request->plain_token->claims()->get('email_phone');
+        $inputType = $request->plain_token->claims()->get('input_type');
         $force_otp_type = $request->force_otp_type;
-        $otp_type = $request->claims->getClaim('otp_type', 'null');
+        $otp_type = $request->plain_token->claims()->get('otp_type', 'null');
 
         if ($inputType == Constants::$EMAIL_MODE) {
             if (in_array(Constants::$OTP_EMAIL, config(Constants::$configOtpServices))) {
                 // $remainingTtl = AM::getRemainingTtlFromLastSend($request, Constants::$OTP_EMAIL);
                 $remainingTtl = $request->tempUser->getRemainingTtlFromLastSend(Constants::$OTP_EMAIL);
-                $request->claims = TM::appendToClaims($request->claims, 'otp_type', Constants::$OTP_EMAIL);
+                $request->plain_token = TM::appendToClaims($request->plain_token, 'otp_type', Constants::$OTP_EMAIL);
                 if ($remainingTtl <= 0) {
                     if (self::sendOtp($request->tempUser, Constants::$OTP_EMAIL)) {
-                        return RS::go2Code($request->claims,
+                        return RS::go2Code($request->plain_token,
                             __('novel-auth::messages.otp.send.email', ['identifier' => $emailPhone]),
                             [['type' => Constants::$OTP_EMAIL, 'id' => $emailPhone]],
                             Constants::$OTP_EMAIL, config(Constants::$configEmailTTL));
@@ -35,7 +35,7 @@ class Otp
                         return RS::back2Auth(__('novel-auth::messages.otp.error.email', ['identifier' => $emailPhone]));
                     }
                 } else {
-                    return RS::go2Code($request->claims,
+                    return RS::go2Code($request->plain_token,
                         __('novel-auth::messages.otp.sent.email', ['identifier' => $emailPhone]),
                         [['type' => Constants::$OTP_EMAIL, 'id' => $emailPhone]],
                         Constants::$OTP_EMAIL, $remainingTtl);
@@ -50,8 +50,8 @@ class Otp
             if ($force_otp_type == 'otp_options') {  // client request otp_options page
                 $request->force_otp_type = null;
                 $force_otp_type = null;
-                $request->claims = TM::removeFromClaims($request->claims, 'otp_type');
-                return RS::go2OtpOptions($request->claims,
+                $request->plain_token = TM::removeFromClaims($request->plain_token, 'otp_type');
+                return RS::go2OtpOptions($request->plain_token,
                     __('novel-auth::messages.otp.options'),
                     self::getRegisterPhoneOptServices($emailPhone));
             }
@@ -65,7 +65,7 @@ class Otp
                     if (in_array($df, config(Constants::$configRegisterPhoneOptServices))) {
                         return self::sendOtp2Phone($request, $df);
                     } else {
-                        return RS::go2OtpOptions($request->claims,
+                        return RS::go2OtpOptions($request->plain_token,
                             __('novel-auth::messages.otp.options'),
                             self::getRegisterPhoneOptServices($emailPhone));
                     }
@@ -77,25 +77,25 @@ class Otp
     public static function sendOtp2Phone(Request $request, $type)
     {
         if (in_array($type, config(Constants::$configRegisterPhoneOptServices))) {
-            $emailPhone = $request->claims->getClaim('email_phone');
+            $emailPhone = $request->plain_token->claims()->get('email_phone');
             $remainingTtl = $request->tempUser->getRemainingTtlFromLastSend($type);
-            $request->claims = TM::appendToClaims($request->claims, 'otp_type', $type);
+            $request->plain_token = TM::appendToClaims($request->plain_token, 'otp_type', $type);
             if ($remainingTtl <= 0) {
                 if ($sentCode = self::sendOtp($request->tempUser, $type)) {
                     $message = ($type == Constants::$OTP_USSD)
                         ? __('novel-auth::messages.otp.send.ussd', ['identifier' => $emailPhone, 'ussd' => $sentCode])
                         : __('novel-auth::messages.otp.send.' . $type, ['identifier' => $emailPhone]);
-                    return RS::go2Code($request->claims, $message, self::getRegisterPhoneOptServices($emailPhone), $type, self::getOtpTtl($type));
+                    return RS::go2Code($request->plain_token, $message, self::getRegisterPhoneOptServices($emailPhone), $type, self::getOtpTtl($type));
                 } else {
                     if (count(config(Constants::$configRegisterPhoneOptServices)) == 1)
                         return RS::back2Auth(__('novel-auth::messages.otp.error.' . $type, ['identifier' => $emailPhone]));
                     else
-                        return RS::back2OtpOptions($request->claims,
+                        return RS::back2OtpOptions($request->plain_token,
                             __('novel-auth::messages.otp.error.' . $type, ['identifier' => $emailPhone]),
                             self::getRegisterPhoneOptServices($emailPhone));
                 }
             } else {
-                return RS::go2Code($request->claims,
+                return RS::go2Code($request->plain_token,
                     __('novel-auth::messages.otp.sent.' . $type, ['identifier' => $emailPhone]),
                     self::getRegisterPhoneOptServices($emailPhone), $type, $remainingTtl);
             }
@@ -203,7 +203,7 @@ class Otp
         $force_otp_type = $request->force_otp_type;
         if ($force_otp_type == 'otp_options') {  // client request otp_options page
             $request->force_otp_type = null;
-            $request->claims = TM::removeFromClaims($request->claims, 'otp_type');
+            $request->plain_token = TM::removeFromClaims($request->plain_token, 'otp_type');
         }
         if ($force_otp_type) {
             $found_key = array_search($force_otp_type, array_column($otpOptions, 'type'));
@@ -217,18 +217,18 @@ class Otp
                 $otpType = $otpOptions[0]['type'];
                 return self::sendCertainOtp($request, $otpOptions, $otpType, $canPassword);
             } else {
-                return RS::go2OtpOptions($request->claims, __('novel-auth::messages.otp.options'), $otpOptions, $canPassword);
+                return RS::go2OtpOptions($request->plain_token, __('novel-auth::messages.otp.options'), $otpOptions, $canPassword);
             }
         }
     }
 
     public static function sendCertainOtp(Request $request, $otpOptions, $type, $canPassword)
     {
-        $request->claims = TM::appendToClaims($request->claims, 'otp_type', $type);
+        $request->plain_token = TM::appendToClaims($request->plain_token, 'otp_type', $type);
         if ($type == Constants::$OTP_GENERATOR) {
-            return RS::go2Code($request->claims, __('novel-auth::messages.otp.send.' . $type), $otpOptions, $type, 0, $canPassword);
+            return RS::go2Code($request->plain_token, __('novel-auth::messages.otp.send.' . $type), $otpOptions, $type, 0, $canPassword);
         }
-        // $emailPhone = $request->claims->getClaim('email_phone');
+        // $emailPhone = $request->plain_token->claims()->get('email_phone');
         // $idType = $type == Constants::$OTP_EMAIL ? 'email' : 'phone';
         $found_key = array_search($type, array_column($otpOptions, 'type'));
         if ($found_key !== false) {
@@ -241,21 +241,21 @@ class Otp
                 $message = ($type == Constants::$OTP_USSD)
                     ? __('novel-auth::messages.otp.send.ussd', ['identifier' => $identifier, 'ussd' => $sentCode])
                     : __('novel-auth::messages.otp.send.' . $type, ['identifier' => $identifier]);
-                return RS::go2Code($request->claims, $message, $otpOptions, $type, self::getOtpTtl($type), $canPassword);
+                return RS::go2Code($request->plain_token, $message, $otpOptions, $type, self::getOtpTtl($type), $canPassword);
             } else {
                 if (count($otpOptions) == 1) {
                     $msg = __('novel-auth::messages.otp.error.' . $type, ['identifier' => $identifier]);
                     if ($canPassword)
-                        return RS::back2Password($request->claims, $msg . ' . ' . __('novel-auth::messages.login.one_otp_error_use_pass'), $otpOptions, !empty($otpOptions));
+                        return RS::back2Password($request->plain_token, $msg . ' . ' . __('novel-auth::messages.login.one_otp_error_use_pass'), $otpOptions, !empty($otpOptions));
                     return RS::back2Auth($msg);
                 } else {
-                    return RS::back2OtpOptions($request->claims,
+                    return RS::back2OtpOptions($request->plain_token,
                         __('novel-auth::messages.otp.error.' . $type, ['identifier' => $identifier]),
                         $otpOptions, $canPassword);
                 }
             }
         } else {
-            return RS::go2Code($request->claims,
+            return RS::go2Code($request->plain_token,
                 __('novel-auth::messages.otp.sent.' . $type, ['identifier' => $identifier]),
                 $otpOptions, $type, $remainingTtl, $canPassword);
         }

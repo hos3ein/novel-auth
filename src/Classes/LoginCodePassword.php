@@ -29,32 +29,32 @@ class LoginCodePassword
         if (in_array(config(Constants::$configLoginMode), [Constants::$ONLY_CODE, Constants::$CODE_PASSWORD])
             or (config(Constants::$configLoginMode) == Constants::$OPTIONAL_CODE_PASSWORD and $request->tempUser->isUserForceBoth())) {
             if (in_array(config(Constants::$configLoginMode), [Constants::$CODE_PASSWORD, Constants::$OPTIONAL_CODE_PASSWORD])) {
-                if ($request->claims->getClaim('verified', false)) {
+                if ($request->plain_token->claims()->get('verified', false)) {
                     if ($pass) {
                         if (app(HasherContract::class)->check($pass, $request->tempUser->password)) {
                             return RS::go2Home($request);
                         } else
-                            return RS::back2Password($request->claims, __('novel-auth::messages.login.pass_error'));
+                            return RS::back2Password($request->plain_token, __('novel-auth::messages.login.pass_error'));
                     } else
-                        return RS::go2Password($request->claims, __('novel-auth::messages.login.pass'));
+                        return RS::go2Password($request->plain_token, __('novel-auth::messages.login.pass'));
                 }
             }
             if ($code) {
-                $otpType = $request->claims->getClaim('otp_type');
+                $otpType = $request->plain_token->claims()->get('otp_type');
                 if ($request->tempUser->verifyCode($otpType, $request->code)) {
-                    $request->tempUser->setVerifyAt($request->claims->getClaim('input_type') == Constants::$EMAIL_MODE ? 'email' : 'phone');
+                    $request->tempUser->setVerifyAt($request->plain_token->claims()->get('input_type') == Constants::$EMAIL_MODE ? 'email' : 'phone');
                     $request->tempUser->deleteAllOtpCodes();
                     if (config(Constants::$configLoginMode) == Constants::$ONLY_CODE) {
                         return RS::go2Home($request);
                     } else {
-                        $request->claims = TM::appendToClaims($request->claims, 'verified', true);
-                        $request->claims = TM::removeFromClaims($request->claims, 'otp_type');
-                        return RS::go2Password($request->claims, __('novel-auth::messages.login.pass'));
+                        $request->plain_token = TM::appendToClaims($request->plain_token, 'verified', true);
+                        $request->plain_token = TM::removeFromClaims($request->plain_token, 'otp_type');
+                        return RS::go2Password($request->plain_token, __('novel-auth::messages.login.pass'));
                     }
                 } else {
                     $otpOptions = $request->tempUser->getAvailableOtpOptionsForUser();
                     $remainingTtl = $request->tempUser->getRemainingTtlFromLastSend($otpType);
-                    return RS::back2Code($request->claims, __('novel-auth::messages.otp.error.invalid_code'), $otpOptions, $otpType, $remainingTtl);
+                    return RS::back2Code($request->plain_token, __('novel-auth::messages.otp.error.invalid_code'), $otpOptions, $otpType, $remainingTtl);
                 }
             }
             return Otp::sendOtpLogin($request, $request->tempUser->getAvailableOtpOptionsForUser());

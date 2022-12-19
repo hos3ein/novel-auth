@@ -36,24 +36,23 @@ class InputValidation
         }
 
         if ($request->token_rc) {
-            $request->claims = TM::ParseToken($request->token_rc);
-            if (TM::validToken($request->claims)) {
+            $request->plain_token = TM::ParseToken($request->token_rc);
+            if (TM::validToken($request->plain_token)) {
 
                 // expiration check
-                // if (!$request->claims->hasClaim('exp') or $request->claims->isExpired())
-                if (!$request->claims->hasClaim('iat') or
-                    (new DateTime()) > (new DateTimeImmutable())->setTimestamp($request->claims->getClaim('iat'))->modify(config(Constants::$configTokenExpiration)))
+                if (!$request->plain_token->claims()->has('iat') or
+                    (new DateTime()) > (new DateTimeImmutable())->setTimestamp($request->plain_token->claims()->get('iat'))->modify(config(Constants::$configTokenExpiration)))
                     return RS::back2Auth(__('novel-auth::messages.token.expired'));
 
                 // blacklist check
-                $jwtId = $request->claims->getClaim('jti');
+                $jwtId = $request->plain_token->claims()->get('jti');
                 if (Cache::get($jwtId, false))
                     return RS::back2Auth(__('novel-auth::messages.token.consumed'));
                 Cache::forever($jwtId, 'forever');
-                $request->claims = TM::appendToClaims($request->claims, 'jti', Str::random());
+                $request->plain_token = TM::appendToClaims($request->plain_token, 'jti', Str::random());
 
                 // update issue_at
-                $request->claims = TM::appendToClaims($request->claims, 'iat', (new DateTime())->getTimestamp());
+                $request->plain_token = TM::appendToClaims($request->plain_token, 'iat', (new DateTime())->getTimestamp());
 
                 return $next($request);
             } else {
@@ -65,7 +64,7 @@ class InputValidation
             if ($inputValid) {
                 $request->inputType = $inputType;
                 $request->emailPhone = $emailPhone;
-                $request->claims = TM::createAuthProcessToken($request);
+                $request->plain_token = TM::createAuthProcessToken($request);
                 return $next($request);
             }
         }

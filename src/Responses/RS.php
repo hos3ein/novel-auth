@@ -6,11 +6,11 @@ use Hos3ein\NovelAuth\Contracts\OtpManager;
 use Hos3ein\NovelAuth\Features\Constants;
 use Hos3ein\NovelAuth\NovelAuth;
 use Illuminate\Http\JsonResponse;
-use Lcobucci\JWT\Token;
+use Lcobucci\JWT\Token\Plain;
 
 class RS
 {
-    public static function resJson($nextPage, ?Token $token, $msg, $err = null, $otpOptions = null, $otpType = null, $ttl = null, $canPassword = false, $canOtp = false): JsonResponse
+    public static function resJson($nextPage, ?Plain $token, $msg, $err = null, $otpOptions = null, $otpType = null, $ttl = null, $canPassword = false, $canOtp = false): JsonResponse
     {
         $data = [
             'next_page' => $nextPage,
@@ -23,7 +23,7 @@ class RS
         if ($canPassword) $data['can_password'] = true;
         if ($canOtp) $data['can_otp'] = true;
         // if ($token) $data['token2'] = $token->getClaims();
-        if ($token) $data['token_rc'] = $token->__toString();
+        if ($token) $data['token_rc'] = $token->toString();
         return response()->json($data);
     }
 

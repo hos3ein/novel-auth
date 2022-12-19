@@ -53,7 +53,7 @@ class NovelAuthServiceProvider extends ServiceProvider
 
         RateLimiter::for('auth', function (Request $request) {
             if ($request->token_rc)
-                $identifier = TM::ParseToken($request->token_rc)->getClaim('email_phone', '');
+                $identifier = TM::ParseToken($request->token_rc)->claims()->get('email_phone', '');
             else
                 $identifier = $request->email_phone;
 
