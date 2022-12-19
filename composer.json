@@ -14,7 +14,7 @@
     "minimum-stability": "dev",
     "require": {
         "laravel/fortify": "^1.7",
-        "tymon/jwt-auth": "^1.0"
+        "tymon/jwt-auth": "1.0.1"
     },
     "require-dev": {
         "mockery/mockery": "^1.0",
@@ -30,6 +30,11 @@
         "psr-4": {
             "Hos3ein\\NovelAuth\\tests": "tests/"
         }
+    },
+    "scripts": {
+        "post-package-install": [
+            "@php artisan jwt:secret"
+        ]
     },
     "extra": {
         "laravel": {
