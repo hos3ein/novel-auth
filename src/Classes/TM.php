@@ -10,6 +10,7 @@ use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Token\Plain;
+use Lcobucci\JWT\Token\RegisteredClaims;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 
 /**
@@ -22,7 +23,7 @@ class TM
     {
         $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText('1'));
         return $config->builder()
-            ->withClaim('jti', Str::random()) // jwtID for add token to blacklist
+            ->identifiedBy(Str::random()) // jwtID for add token to blacklist
             ->withClaim('email_phone', $request->emailPhone)
             ->withClaim('input_type', $request->inputType)
             //->expiresAt($now->modify('+5 minute')->getTimestamp())
@@ -37,7 +38,11 @@ class TM
         foreach ($claims->claims()->all() as $claimKey => $claimValue)
             if ($claimKey != $name)
                 $config->builder()->withClaim($claimKey, $claimValue);
-        $config->builder()->withClaim($name, $value);
+        if ($name == RegisteredClaims::ID) {
+            $config->builder()->identifiedBy($value);
+        } else {
+            $config->builder()->withClaim($name, $value);
+        }
         return $config->builder()->getToken($config->signer(), $config->signingKey());
     }
 
