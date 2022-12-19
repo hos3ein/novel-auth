@@ -40,7 +40,8 @@ class RS
         if (NovelAuth::$onAuthDoneCallback)
             return call_user_func(NovelAuth::$onAuthDoneCallback, $request, $request->tempUser);
 
-        auth(config(Constants::$configGuard))->login($request->tempUser, $request->filled('remember'));
+        $remember = $request->plain_token->claims()->get('remember', false);
+        auth(config(Constants::$configGuard))->login($request->tempUser, $remember);
         return response()->redirectTo(config(Constants::$configHome));
     }
 

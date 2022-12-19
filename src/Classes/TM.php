@@ -27,6 +27,7 @@ class TM
             ->identifiedBy(Str::random()) // jwtID for add token to blacklist
             ->withClaim('email_phone', $request->emailPhone)
             ->withClaim('input_type', $request->inputType)
+            ->withClaim('remember', $request->filled('remember'))
             //->expiresAt($now->modify('+5 minute')->getTimestamp())
             ->issuedAt(new DateTimeImmutable())
             ->getToken($config->signer(), $config->signingKey());
