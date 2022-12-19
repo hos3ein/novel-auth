@@ -6,6 +6,7 @@ use DateTimeImmutable;
 use Hos3ein\NovelAuth\Features\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
@@ -35,20 +36,10 @@ class TM
     public static function appendToClaims(Plain $claims, $name, $value): Plain
     {
         $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText(config(Constants::$configSecretKey)));
-        foreach ($claims->claims()->all() as $claimKey => $claimValue) {
-            if ($claimKey != $name) {
-                if ($claimKey == RegisteredClaims::ID) {
-                    $config->builder()->identifiedBy($claimValue);
-                } else {
-                    $config->builder()->withClaim($claimKey, $claimValue);
-                }
-            }
-        }
-        if ($name == RegisteredClaims::ID) {
-            $config->builder()->identifiedBy($value);
-        } else {
-            $config->builder()->withClaim($name, $value);
-        }
+        foreach ($claims->claims()->all() as $claimKey => $claimValue)
+            if ($claimKey != $name)
+                self::setRegisteredClaims($config->builder(), $claimKey, $claimValue);
+        self::setRegisteredClaims($config->builder(), $name, $value);
         return $config->builder()->getToken($config->signer(), $config->signingKey());
     }
 
@@ -56,13 +47,8 @@ class TM
     {
         $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText(config(Constants::$configSecretKey)));
         foreach ($claims->claims()->all() as $claimKey => $claimValue)
-            if ($claimKey != $name) {
-                if ($claimKey == RegisteredClaims::ID) {
-                    $config->builder()->identifiedBy($claimValue);
-                } else {
-                    $config->builder()->withClaim($claimKey, $claimValue);
-                }
-            }
+            if ($claimKey != $name)
+                self::setRegisteredClaims($config->builder(), $claimKey, $claimValue);
         return $config->builder()->getToken($config->signer(), $config->signingKey());
     }
 
@@ -76,5 +62,29 @@ class TM
     {
         $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText(config(Constants::$configSecretKey)));
         return $config->parser()->parse($token_rc);
+    }
+
+    private static function setRegisteredClaims(Builder $builder, $name, $value)
+    {
+        if ($name == RegisteredClaims::ID) {
+            $builder->identifiedBy($value);
+        } elseif ($name == RegisteredClaims::AUDIENCE) {
+            $builder->permittedFor($value);
+        } elseif ($name == RegisteredClaims::NOT_BEFORE) {
+            dd($name, $value);
+            $builder->canOnlyBeUsedAfter($value);
+        } elseif ($name == RegisteredClaims::EXPIRATION_TIME) {
+            dd($name, $value);
+            $builder->expiresAt($value);
+        } elseif ($name == RegisteredClaims::ISSUED_AT) {
+            dd($name, $value);
+            $builder->issuedAt($value);
+        } elseif ($name == RegisteredClaims::ISSUER) {
+            $builder->issuedBy($value);
+        } elseif ($name == RegisteredClaims::SUBJECT) {
+            $builder->relatedTo($value);
+        } else {
+            $builder->withClaim($name, $value);
+        }
     }
 }
