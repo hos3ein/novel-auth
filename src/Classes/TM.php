@@ -20,7 +20,7 @@ class TM
 {
     public static function createAuthProcessToken(Request $request): Plain
     {
-        $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText(config(Constants::$configSecretKey)));
+        $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText('1'));
         return $config->builder()
             ->withClaim('jti', Str::random()) // jwtID for add token to blacklist
             ->withClaim('email_phone', $request->emailPhone)
@@ -34,7 +34,7 @@ class TM
     public static function appendToClaims(Plain $claims, $name, $value): Plain
     {
         $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText(config(Constants::$configSecretKey)));
-        foreach ($claims->claims() as $claimKey => $claimValue)
+        foreach ($claims->claims()->all() as $claimKey => $claimValue)
             if ($claimKey != $name)
                 $config->builder()->withClaim($claimKey, $claimValue);
         $config->builder()->withClaim($name, $value);
@@ -44,7 +44,7 @@ class TM
     public static function removeFromClaims(Plain $claims, $name): Plain
     {
         $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText(config(Constants::$configSecretKey)));
-        foreach ($claims->claims() as $claimKey => $claimValue)
+        foreach ($claims->claims()->all() as $claimKey => $claimValue)
             if ($claimKey != $name)
                 $config->builder()->withClaim($claimKey, $claimValue);
         return $config->builder()->getToken($config->signer(), $config->signingKey());
