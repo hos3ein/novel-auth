@@ -21,7 +21,7 @@ class TM
 {
     public static function createAuthProcessToken(Request $request): Plain
     {
-        $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText('1'));
+        $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText(config(Constants::$configSecretKey)));
         return $config->builder()
             ->identifiedBy(Str::random()) // jwtID for add token to blacklist
             ->withClaim('email_phone', $request->emailPhone)
