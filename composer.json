@@ -1,7 +1,7 @@
 {
     "name": "hos3ein/novel-auth",
     "description": "Laravel authentication with password or otp or both and highly configurable",
-    "homepage":     "https://github.com/hos3ein/novel-auth",
+    "homepage": "https://github.com/hos3ein/novel-auth",
     "keywords": ["laravel", "auth", "otp"],
     "type": "library",
     "license": "MIT",
@@ -13,6 +13,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
+        "php": "^7.4|^8.0",
         "laravel/fortify": "^1.7",
         "tymon/jwt-auth": "^1.0"
     },
@@ -30,11 +31,6 @@
         "psr-4": {
             "Hos3ein\\NovelAuth\\tests": "tests/"
         }
-    },
-    "scripts": {
-        "post-package-install": [
-            "@php artisan jwt:secret"
-        ]
     },
     "extra": {
         "laravel": {

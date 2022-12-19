@@ -6,11 +6,11 @@ use DateTimeImmutable;
 use Hos3ein\NovelAuth\Features\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Lcobucci\JWT\Builder;
-use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
-use Lcobucci\JWT\Signer\Key;
-use Lcobucci\JWT\Token;
+use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Token\Plain;
+use Lcobucci\JWT\Validation\Constraint\SignedWith;
 
 /**
  * Class TM (Token Manager)
@@ -18,43 +18,47 @@ use Lcobucci\JWT\Token;
  */
 class TM
 {
-    public static function createAuthProcessToken(Request $request): Token
+    public static function createAuthProcessToken(Request $request): Plain
     {
-        return (new Builder())
+        $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText(config(Constants::$configSecretKey)));
+        return $config->builder()
             ->withClaim('jti', Str::random()) // jwtID for add token to blacklist
             ->withClaim('email_phone', $request->emailPhone)
             ->withClaim('input_type', $request->inputType)
             //->expiresAt($now->modify('+5 minute')->getTimestamp())
-            ->issuedAt((new DateTimeImmutable())->getTimestamp())
-            ->getToken(new Sha256(), new Key(config(Constants::$configSecretKey)));
+            ->issuedAt(new DateTimeImmutable())
+            ->getToken($config->signer(), $config->signingKey());
+
     }
 
-    public static function appendToClaims(Token $claims, $name, $value): Token
+    public static function appendToClaims(Plain $claims, $name, $value): Plain
     {
-        $b = new Builder();
-        foreach ($claims->getClaims() as $claimKey => $claimValue)
+        $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText(config(Constants::$configSecretKey)));
+        foreach ($claims->claims() as $claimKey => $claimValue)
             if ($claimKey != $name)
-                $b->withClaim($claimKey, $claimValue);
-        $b->withClaim($name, $value);
-        return $b->getToken(new Sha256(), new Key(config(Constants::$configSecretKey)));
+                $config->builder()->withClaim($claimKey, $claimValue);
+        $config->builder()->withClaim($name, $value);
+        return $config->builder()->getToken($config->signer(), $config->signingKey());
     }
 
-    public static function removeFromClaims(Token $claims, $name): Token
+    public static function removeFromClaims(Plain $claims, $name): Plain
     {
-        $b = new Builder();
-        foreach ($claims->getClaims() as $claimKey => $claimValue)
+        $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText(config(Constants::$configSecretKey)));
+        foreach ($claims->claims() as $claimKey => $claimValue)
             if ($claimKey != $name)
-                $b->withClaim($claimKey, $claimValue);
-        return $b->getToken(new Sha256(), new Key(config(Constants::$configSecretKey)));
+                $config->builder()->withClaim($claimKey, $claimValue);
+        return $config->builder()->getToken($config->signer(), $config->signingKey());
     }
 
-    public static function validToken(Token $token): bool
+    public static function validToken(Plain $token): bool
     {
-        return $token->verify(new Sha256(), new Key(config(Constants::$configSecretKey)));
+        $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText(config(Constants::$configSecretKey)));
+        return $config->validator()->validate($token, new SignedWith($config->signer(), $config->signingKey()));
     }
 
-    public static function ParseToken(string $token_rc): Token
+    public static function ParseToken(string $token_rc): Plain
     {
-        return (new Parser())->parse($token_rc);
+        $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText(config(Constants::$configSecretKey)));
+        return $config->parser()->parse($token_rc);
     }
 }
