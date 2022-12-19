@@ -36,20 +36,22 @@ class TM
     public static function appendToClaims(Plain $claims, $name, $value): Plain
     {
         $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText(config(Constants::$configSecretKey)));
+        $builder = $config->builder();
         foreach ($claims->claims()->all() as $claimKey => $claimValue)
             if ($claimKey != $name)
-                self::setRegisteredClaims($config->builder(), $claimKey, $claimValue);
-        self::setRegisteredClaims($config->builder(), $name, $value);
-        return $config->builder()->getToken($config->signer(), $config->signingKey());
+                $builder = self::setRegisteredClaims($builder, $claimKey, $claimValue);
+        $builder = self::setRegisteredClaims($builder, $name, $value);
+        return $builder->getToken($config->signer(), $config->signingKey());
     }
 
     public static function removeFromClaims(Plain $claims, $name): Plain
     {
         $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText(config(Constants::$configSecretKey)));
+        $builder = $config->builder();
         foreach ($claims->claims()->all() as $claimKey => $claimValue)
             if ($claimKey != $name)
-                self::setRegisteredClaims($config->builder(), $claimKey, $claimValue);
-        return $config->builder()->getToken($config->signer(), $config->signingKey());
+                $builder = self::setRegisteredClaims($builder, $claimKey, $claimValue);
+        return $builder->getToken($config->signer(), $config->signingKey());
     }
 
     public static function validToken(Plain $token): bool
@@ -64,24 +66,24 @@ class TM
         return $config->parser()->parse($token_rc);
     }
 
-    private static function setRegisteredClaims(Builder $builder, $name, $value)
+    private static function setRegisteredClaims(Builder $builder, $name, $value): Builder
     {
         if ($name == RegisteredClaims::ID) {
-            $builder->identifiedBy($value);
+            return $builder->identifiedBy($value);
         } elseif ($name == RegisteredClaims::AUDIENCE) {
-            $builder->permittedFor($value);
+            return $builder->permittedFor($value);
         } elseif ($name == RegisteredClaims::NOT_BEFORE) {
-            $builder->canOnlyBeUsedAfter($value);
+            return $builder->canOnlyBeUsedAfter($value);
         } elseif ($name == RegisteredClaims::EXPIRATION_TIME) {
-            $builder->expiresAt($value);
+            return $builder->expiresAt($value);
         } elseif ($name == RegisteredClaims::ISSUED_AT) {
-            $builder->issuedAt($value);
+            return $builder->issuedAt($value);
         } elseif ($name == RegisteredClaims::ISSUER) {
-            $builder->issuedBy($value);
+            return $builder->issuedBy($value);
         } elseif ($name == RegisteredClaims::SUBJECT) {
-            $builder->relatedTo($value);
+            return $builder->relatedTo($value);
         } else {
-            $builder->withClaim($name, $value);
+            return $builder->withClaim($name, $value);
         }
     }
 }
