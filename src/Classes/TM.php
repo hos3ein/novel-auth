@@ -50,8 +50,13 @@ class TM
     {
         $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText(config(Constants::$configSecretKey)));
         foreach ($claims->claims()->all() as $claimKey => $claimValue)
-            if ($claimKey != $name)
-                $config->builder()->withClaim($claimKey, $claimValue);
+            if ($claimKey != $name) {
+                if ($name == RegisteredClaims::ID) {
+                    $config->builder()->identifiedBy($claimValue);
+                } else {
+                    $config->builder()->withClaim($claimKey, $claimValue);
+                }
+            }
         return $config->builder()->getToken($config->signer(), $config->signingKey());
     }
 
