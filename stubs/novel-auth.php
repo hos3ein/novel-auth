@@ -60,7 +60,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    Constants::$tokenExpiration => '+5 hour',
+    Constants::$tokenExpiration => '5 hour',
     Constants::$otpCodeTtl => '2 hour', // acceptable code up to 2 hours
     Constants::$encryptOtpCode => true,
 

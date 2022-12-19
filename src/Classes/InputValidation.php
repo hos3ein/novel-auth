@@ -40,8 +40,11 @@ class InputValidation
             if (TM::validToken($request->plain_token)) {
 
                 // expiration check
-                if (!$request->plain_token->claims()->has('iat') or
-                    (new DateTime()) > (new DateTimeImmutable())->setTimestamp($request->plain_token->claims()->get('iat'))->modify(config(Constants::$configTokenExpiration)))
+                if (
+                    !$request->plain_token->claims()->has('iat')
+                    or
+                    $request->plain_token->hasBeenIssuedBefore(now()->modify('-' . config(Constants::$configTokenExpiration)))
+                )
                     return RS::back2Auth(__('novel-auth::messages.token.expired'));
 
                 // blacklist check
