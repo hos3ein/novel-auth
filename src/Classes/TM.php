@@ -35,9 +35,15 @@ class TM
     public static function appendToClaims(Plain $claims, $name, $value): Plain
     {
         $config = Configuration::forSymmetricSigner(new Sha256(), InMemory::plainText(config(Constants::$configSecretKey)));
-        foreach ($claims->claims()->all() as $claimKey => $claimValue)
-            if ($claimKey != $name)
-                $config->builder()->withClaim($claimKey, $claimValue);
+        foreach ($claims->claims()->all() as $claimKey => $claimValue) {
+            if ($claimKey != $name) {
+                if ($name == RegisteredClaims::ID) {
+                    $config->builder()->identifiedBy($claimValue);
+                } else {
+                    $config->builder()->withClaim($claimKey, $claimValue);
+                }
+            }
+        }
         if ($name == RegisteredClaims::ID) {
             $config->builder()->identifiedBy($value);
         } else {
