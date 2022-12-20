@@ -21,11 +21,13 @@ return [
     "login_with_otp" => "Login with OTP",
     "resend_otp" => "Resend OTP",
     "select_another_otp" => "Select another OTP",
+    "remember_me" => "Remember me",
 
     'users' => [
         'inactive' => 'Your account is deactivated',
     ],
     'login' => [
+        "login" => "Login",
         'disabled' => 'Login is disabled',
         'pass' => 'Input password',
         'no_otp_use_pass' => 'No otp service for you. input pass',

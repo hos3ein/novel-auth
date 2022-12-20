@@ -143,4 +143,19 @@ class NovelAuth
         static::$registersRoutes = false;
         return new static;
     }
+
+    /**
+     * Tailwind Css
+     */
+    private static $tailwindLayout = 'novel-auth::tailwind.layout';
+
+    public static function tailwindLayoutUsing(string $layout)
+    {
+        static::$tailwindLayout = $layout;
+    }
+
+    public static function tailwindLayout(): string
+    {
+        return static::$tailwindLayout;
+    }
 }

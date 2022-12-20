@@ -39,6 +39,7 @@ class NovelAuthServiceProvider extends ServiceProvider
         // NovelAuth::customPassValidationRule('min:6');
         // NovelAuth::viewPrefix('auth.');
         // NovelAuth::viewPrefix('novel-auth::bootstrap.');
+        // NovelAuth::tailwindLayoutUsing('auth.tailwind.layout');
 
         /*NovelAuth::emailPhoneValidationUsing(function ($emailPhone) {
             if (is_numeric($emailPhone))
