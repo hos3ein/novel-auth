@@ -1,6 +1,7 @@
 @if($canPassword)
-    <button onclick="change2pass()"
-            class="btn btn-link">{{ __('novel-auth::messages.login_with_password') }}</button>
+    <button type="button"
+            onclick="change2pass()"
+            class="mt-4 self-start text-gray-600 hover:text-gray-900 underline">{{ __('novel-auth::messages.login_with_password') }}</button>
     <script>
         function change2pass() {
             let form = document.getElementsByTagName('form')[0];

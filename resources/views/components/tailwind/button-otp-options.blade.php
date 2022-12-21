@@ -1,6 +1,7 @@
 @if(count($otpOptions) > 1)
-    <button onclick="change2Otp()"
-            class="btn btn-link">{{ __('novel-auth::messages.select_another_otp') }}</button>
+    <button type="button"
+            onclick="change2Otp()"
+            class="mt-4 self-start text-gray-600 hover:text-gray-900 underline">{{ __('novel-auth::messages.select_another_otp') }}</button>
     <script>
         function change2Otp() {
             let form = document.getElementsByTagName('form')[0];

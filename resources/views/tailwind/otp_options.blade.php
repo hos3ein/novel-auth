@@ -8,14 +8,16 @@
         @csrf
         <input type="hidden" name="token_rc" value="{{ $token_rc->toString() }}">
 
-        <div>
-            <div>Choose one:</div>
+        <ul>
             @foreach($otpOptions as $option)
-                <label>
-                    <input type="radio" name="force_otp_type" value="{{ $option['type'] }}"> {{ $option['type'] }} ({{ $option['id'] }})
-                </label><br>
+                <li class="py-2">
+                    <label class="py-2 cursor-pointer select-none">
+                        <input type="radio" name="force_otp_type" value="{{ $option['type'] }}">
+                        {{ \Hos3ein\NovelAuth\Responses::otpLabel($option['type'], $option['id']) }}
+                    </label>
+                </li>
             @endforeach
-        </div>
+        </ul>
 
         <x-novel-auth::tailwind.button-submit/>
 

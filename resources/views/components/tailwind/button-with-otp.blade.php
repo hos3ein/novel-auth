@@ -1,5 +1,7 @@
 @if($canOtp)
-    <button onclick="change2Otp()">change to otp mode</button>
+    <button type="button"
+            onclick="change2Otp()"
+            class="mt-4 self-start text-gray-600 hover:text-gray-900 underline">{{ __('novel-auth::messages.login_with_otp') }}</button>
     <script>
         function change2Otp() {
             let form = document.getElementsByTagName('form')[0];

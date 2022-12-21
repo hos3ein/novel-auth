@@ -113,4 +113,25 @@ class RS
         return view(NovelAuth::otpOptionsView(), compact('token_rc', 'message', 'otpOptions', 'canPassword'))->withErrors([$err]);
     }
 
+    public static function otpLabel($otpType, $otpId)
+    {
+        switch ($otpType){
+            case Constants::$OTP_EMAIL:
+                return "ارسال ایمیل به $otpId";
+            case Constants::$OTP_CALL:
+                return "تماس با شماره $otpId";
+            case Constants::$OTP_SMS:
+                return "ارسال پیامک به $otpId";
+            case Constants::$OTP_USSD:
+                return "شماره گیری کد ussd با شماره $otpId";
+            case Constants::$OTP_TELEGRAM:
+                return "ارسال پیام در Telegram به شماره $otpId";
+            case Constants::$OTP_WHATSAPP:
+                return "ارسال پیام در Whatsapp به شماره $otpId";
+            case Constants::$OTP_GENERATOR:
+                return "$otpType ($otpId)";
+            default:
+                return '';
+        }
+    }
 }

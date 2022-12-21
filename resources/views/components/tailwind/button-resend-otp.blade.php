@@ -1,5 +1,6 @@
 @if(!in_array($otpType, [\Hos3ein\NovelAuth\Features\Constants::$OTP_GENERATOR, \Hos3ein\NovelAuth\Features\Constants::$OTP_USSD]))
-    <button id="btn_resend"
+    <button type="button"
+            id="btn_resend"
             onclick="resendCode()"
             class="mt-4 text-sm text-gray-600 hover:text-gray-900 underline disabled:no-underline disabled:cursor-not-allowed"
             disabled>
