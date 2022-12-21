@@ -13,7 +13,7 @@
                 <li class="py-2">
                     <label class="py-2 cursor-pointer select-none">
                         <input type="radio" name="force_otp_type" value="{{ $option['type'] }}">
-                        {{ \Hos3ein\NovelAuth\Responses::otpLabel($option['type'], $option['id']) }}
+                        {{ \Hos3ein\NovelAuth\Responses\RS::otpLabel($option['type'], $option['id']) }}
                     </label>
                 </li>
             @endforeach
